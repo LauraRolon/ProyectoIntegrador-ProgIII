@@ -6,5 +6,6 @@ function Card() {
   <Text> Hello World </Text> 
 </View> 
 );
+
 }
 export default Card;
