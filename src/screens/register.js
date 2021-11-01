@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 
- class Home extends Component {
+ class Register extends Component {
   render() {
     return (
       <View>
@@ -11,6 +11,4 @@ import { Text, View } from 'react-native'
   }
 }
 
-export default Home
-
-//VER CLASE MIN 31.00
+export default Register
