@@ -5,7 +5,7 @@ import { Text, View } from 'react-native'
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        <Text> textInComponentHome </Text>
       </View>
     )
   }

@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../screens/home';
@@ -26,4 +27,4 @@ class Menu extends Component{
 
 }
 
-export default Menu
+export default Menu;
