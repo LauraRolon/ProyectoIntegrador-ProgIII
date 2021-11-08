@@ -13,7 +13,7 @@ class NewPost extends Component{
 
     submitPost(){
         db.collection("posteos").add({
-            //user: auth.currentUser.email,
+            user: auth.currentUser.email,
             createdAt: Date.now(),
             titulo: this.state.titulo,
             description: this.state.description,
