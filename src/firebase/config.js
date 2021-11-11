@@ -2,13 +2,14 @@ import app from 'firebase/app';
 import firebase from 'firebase';
 
 const firebaseConfig = {
-apiKey: "AIzaSyCawyMkynjgm1PmZ1wL6E5hKpLTU18b9KQ",
-authDomain: "test-78484.firebaseapp.com",
-projectId: "test-78484",
-storageBucket: "test-78484.appspot.com",
-messagingSenderId: "834071584068",
-appId: "1:834071584068:web:afadf55cc8a18d56028b11"
-};
+    apiKey: "AIzaSyC2hA_iRtbWdTZIRZdvllWjZ0RO1Z-5swI",
+    authDomain: "progiii-integrador.firebaseapp.com",
+    projectId: "progiii-integrador",
+    storageBucket: "progiii-integrador.appspot.com",
+    messagingSenderId: "164036583765",
+    appId: "1:164036583765:web:b86707864ad67e49abcfdc",
+    measurementId: "G-NTK6J3K71T"
+  };
 
 app.initializeApp(firebaseConfig);
 
