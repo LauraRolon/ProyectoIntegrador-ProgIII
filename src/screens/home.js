@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { db } from "../firebase/config"
 import { Text, View, StyleSheet, FlatList } from 'react-native'
+import Post from '../components/Post'
 
 
 class Home extends Component {
@@ -19,13 +20,12 @@ class Home extends Component {
     db.collection("posteos").onSnapshot((docs) => {
       let posteos = []
       docs.forEach((doc) => {
-        console.log(posteos)
-        posteos.push({
+        posteos.push({ //meto en el array esto
           id:doc.id,
           data: doc.data()
         })
       })
-      this.setState({
+      this.setState({   //seteo estado post con posteos
         posts: posteos
       })
     })
@@ -34,11 +34,11 @@ class Home extends Component {
   render() {
     return (
       <View>
-         <FlatList 
-                    data={this.state.posts}
+          <FlatList 
+                    data={this.state.posts} //el array
                     keyExtractor={(post) => post.id}
-                    renderItem={({item}) => <Post postData={item} />}
-                /> 
+                    renderItem={({item}) => <Post postData={item} />} //paso como prop
+                />  
       </View>
     )
   }

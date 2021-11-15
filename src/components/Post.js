@@ -1,5 +1,5 @@
-/* import React, { Component } from 'react'
-import { Text, StyleSheet, View, Modal, TouchableOpacity } from 'react-native'
+import React, { Component } from 'react'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { auth, db } from '../firebase/config'
 import firebase from 'firebase'
 
@@ -18,14 +18,19 @@ class Post extends Component {
     }
 
     render() {
+        console.log(this.props.postData)
+        let {data} = this.props.postData //Destructuring
         return (
-            <View style={styles.container}>
-                <Text> {this.props.postData.data.user} </Text>
-                <Text> {this.props.postData.data.description} </Text>
+            <View>
+                <Text> {data.titulo} </Text>
+                <Text> {data.description} </Text>
+                <Text> {data.user} </Text>
+                
+                
 
             </View>
         )
     }
 }
 
-export default Post */
+export default Post 

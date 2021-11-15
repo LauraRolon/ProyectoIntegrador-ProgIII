@@ -17,7 +17,8 @@ class NewPost extends Component{
             createdAt: Date.now(),
             titulo: this.state.titulo,
             description: this.state.description,
-            comments: []
+            comments: [],
+            likes: []
         })
         .then( () => {
             console.log("se posteó exitosamente")
