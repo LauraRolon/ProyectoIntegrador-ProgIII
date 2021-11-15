@@ -35,6 +35,27 @@ class Menu extends Component {
         })
     }
 
+    sessionError(mail, pass, error) {
+        let mensajeError = ''
+        if (error.code == "auth/invalid-email") {
+            mensajeError = 'El formato del mail no es valido'
+        }
+        else if (error.code == 'auth/wrong-password') {
+            mensajeError = 'La contraseña es incorrecta'
+        }
+         else if (true) {
+            mensajeError = 'Los datos ingresados no son correctos'
+        }
+
+        this.setState({
+            estadoError: mensajeError,
+            estadoEmail: mail,
+            estadoContraseña: pass
+
+        })
+        console.log(error)
+    }
+
     //LOGIN Y LOGOUT
     login(mail, pass) {
         auth.signInWithEmailAndPassword(mail, pass)
@@ -45,13 +66,9 @@ class Menu extends Component {
                     loggedIn: true,
                 });
             })
-            .catch(error => {
-                console.log(error)
-                this.setState({
-                    error: "Credenciales inválidas."
-                })
-            })
+            .catch(error => this.sessionError(mail, pass, error))
     }
+
 
 
     logout() {
@@ -71,7 +88,7 @@ class Menu extends Component {
                 <NavigationContainer>
                     <Drawer.Navigator>
 
-                        <Drawer.Screen name="Login" component={() => <Login Login={(mail, pass) => this.login(mail, pass)} error={this.state.error} />} />
+                        <Drawer.Screen name="Login" component={() => <Login Login={(mail, pass) => this.login(mail, pass)} error={this.state.estadoError} mail={this.state.estadoEmail} pass={this.state.estadoContraseña}   />} />
                         <Drawer.Screen name="Register" component={() => <Register />} />
                     </Drawer.Navigator>
                 </NavigationContainer> :

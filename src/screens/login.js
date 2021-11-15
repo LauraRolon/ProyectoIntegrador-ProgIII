@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 
- class Login extends Component {
+export default class Login extends Component {
   constructor(props){
     super(props);
     this.state = {
-      mail: "",
-      pass: "",
+      mail: this.props.mail,
+      pass: this.props.pass
     }
   }
+
+componentWillMount(){
+  console.log(this.props)
+  
+}
 
   render() {
     return (
@@ -16,6 +21,7 @@ import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 
         <Text>Login</Text>
 
+        <Text>{this.props.error}</Text>
         <TextInput style={styles.field}
           keyboardType="email-address"
           placeholder="mail"
@@ -58,6 +64,3 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 })
-
-
-export default Login;
