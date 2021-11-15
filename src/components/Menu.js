@@ -11,23 +11,23 @@ import NewPost from '../screens/NewPost';
 
 
 const Drawer = createDrawerNavigator();
-class Menu extends Component{
-    constructor(){
+class Menu extends Component {
+    constructor() {
         super();
         this.state = {
             loggedIn: false,
-            error: "" 
+            error: ""
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         auth.onAuthStateChanged((user) => {
             console.log(user);
-            if(user !== null){
+            if (user !== null) {
                 this.setState({
-                    loggedIn:true
+                    loggedIn: true
                 })
-            }else{
+            } else {
                 this.setState({
                     loggedIn: false
                 })
@@ -64,19 +64,27 @@ class Menu extends Component{
             .catch(err => console.log(err))
     }
 
-    
-    render(){
+
+    render() {
         return (
-            <NavigationContainer>
-              <Drawer.Navigator>
-                 <Drawer.Screen name="Home" component={()=><Home />} />
-                 <Drawer.Screen name="Login" component={()=><Login Login={ (mail, pass) => this.login(mail, pass)} error={this.state.error} />} />
-                 <Drawer.Screen name="Register" component={()=><Register />} />
-                 <Drawer.Screen name=" Mi Perfil" component={() => <Perfil Logout={() => this.logout()} />} />
-                 <Drawer.Screen name="Postear" component={() => <NewPost />} />
-              </Drawer.Navigator>
-            </NavigationContainer>
-         )
+            this.state.loggedIn == false ?
+                <NavigationContainer>
+                    <Drawer.Navigator>
+
+                        <Drawer.Screen name="Login" component={() => <Login Login={(mail, pass) => this.login(mail, pass)} error={this.state.error} />} />
+                        <Drawer.Screen name="Register" component={() => <Register />} />
+                    </Drawer.Navigator>
+                </NavigationContainer> :
+                <NavigationContainer>
+                    <Drawer.Navigator>
+                        <Drawer.Screen name="Home" component={() => <Home />} />
+                        <Drawer.Screen name=" Mi Perfil" component={() => <Perfil Logout={() => this.logout()} />} />
+                        <Drawer.Screen name="Postear" component={() => <NewPost />} />
+                    </Drawer.Navigator>
+                </NavigationContainer>
+
+
+        )
     }
 
 }
