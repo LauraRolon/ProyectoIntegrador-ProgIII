@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { auth, db } from '../firebase/config';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import MyCamera from '../components/MyCamera';
 
 class NewPost extends Component{
     constructor(){
@@ -8,6 +9,7 @@ class NewPost extends Component{
         this.state={
             titulo:"",
             description:"",
+            showCamera: true,
         }
     }
 
@@ -17,7 +19,8 @@ class NewPost extends Component{
             createdAt: Date.now(),
             titulo: this.state.titulo,
             description: this.state.description,
-            comments: []
+            likes: [],
+            comments: [] //array de objetos literales
         })
         .then( () => {
             console.log("se posteó exitosamente")
@@ -29,9 +32,12 @@ class NewPost extends Component{
         .catch(err => console.log(err))
     }
 
+   
     render(){
         return(
+            this.state.showCamera ? <MyCamera /> :
             <View style={styles.form}>
+
                 <TextInput 
                     placeholder="Título"
                     keyboardType="default"
