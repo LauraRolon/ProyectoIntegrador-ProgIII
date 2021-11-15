@@ -20,7 +20,8 @@ class NewPost extends Component{
             titulo: this.state.titulo,
             description: this.state.description,
             likes: [],
-            comments: [] //array de objetos literales
+            comments: [], //array de objetos literales
+            foto: this.state.url
         })
         .then( () => {
             console.log("se posteó exitosamente")
@@ -32,10 +33,20 @@ class NewPost extends Component{
         .catch(err => console.log(err))
     }
 
+    imageUpload(url){
+        this.setState({
+            url: url,
+            showCamera: false
+        })
+    }
+
    
     render(){
         return(
-            this.state.showCamera ? <MyCamera /> :
+            this.state.showCamera ? 
+            
+            <MyCamera imageUpload={(url) => this.imageUpload(url) } /> :
+
             <View style={styles.form}>
 
                 <TextInput 
