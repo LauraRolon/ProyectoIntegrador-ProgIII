@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {View, Text, TouchableOpacity, StyleSheet} from "react-native"
-import { auth } from "../firebase/config";
+import {View, Text, TouchableOpacity, StyleSheet, FlatList} from "react-native"
+import { auth, db } from "../firebase/config";
+import Post from "../components/Post";
 
 class Perfil extends Component{
     constructor(props){
@@ -8,6 +9,30 @@ class Perfil extends Component{
         this.state={
 
         }
+    }
+
+    componentDidMount(){
+        this.posteosUsuario()
+    }
+
+    posteosUsuario() {
+        db.collection("posteos").where("user", "==", auth.currentUser.email).orderBy("createdAt", "desc").onSnapshot((docs) => {
+            let posteos = []
+            docs.forEach((doc) => {
+                console.log(posteos)
+                posteos.push({
+                    id: doc.id,
+                    data: doc.data()
+                })
+            })
+            this.setState({
+                posts: posteos
+            })
+        })
+    }
+
+    borrarPost(){
+        
     }
 
     render(){
@@ -21,6 +46,12 @@ class Perfil extends Component{
                 <TouchableOpacity style={styles.touchable} onPress={ () => this.props.Logout()}>
                     <Text style={styles.touchableText}>Logout</Text>
                 </TouchableOpacity>
+
+                <FlatList
+                    data={this.state.posts}
+                    keyExtractor={(post) => post.id}
+                    renderItem={({ item }) => <Post postData={item} />}
+                />
             </View>
         )
     }
