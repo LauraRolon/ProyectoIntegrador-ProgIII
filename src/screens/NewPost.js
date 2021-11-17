@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-nativ
 import MyCamera from '../components/MyCamera';
 
 class NewPost extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             titulo:"",
             description:"",
