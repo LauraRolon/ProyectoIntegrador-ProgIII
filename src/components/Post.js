@@ -17,40 +17,73 @@ class Post extends Component {
 
     }
 
-    recieveLikes(){
-        if (this.props.postData.data.likes){
+    recieveLikes() {
+        let likes = this.props.postData.data.likes;
+        if (likes) {
             this.setState({
-                likes: this.props.postData.data.likes.lenght
+                likes: likes.lengh
+            })
+
+        }
+        if (likes.includes(auth.currentUser.email)) {
+            this.setState({
+                liked: true
             })
         }
-    } //EN PROCESO
+    } 
+
+    likePost(){
+        this.setState({
+            likes: this.state.likes + 1,
+            liked: true
+        })
+        console.log('puse like')
+    }
+
+    unlikePost(){
+        this.setState({
+            likes: this.state.likes - 1,
+            liked: false
+        })
+        console.log('elimine like')
+    }
 
     render() {
         console.log(this.props.postData)
-        let {data} = this.props.postData //Destructuring
+        let { data } = this.props.postData //Destructuring
         return (
             <View>
-                 <Image
+                <Image
                     style={styles.image}
-                    source={{uri: this.props.postData.data.foto}}
+                    source={{ uri: this.props.postData.data.foto }}
                 />
-                
+
                 <Text> {data.titulo} </Text>
                 <Text> {data.description} </Text>
                 <Text> {data.user} </Text>
                 <Text> {this.state.likes} </Text>
 
-               
+                {
+                    ! this.state.liked ?
+                        <TouchableOpacity onPress={() => this.likePost()}>
+                            <Text> Likear</Text>
+                        </TouchableOpacity>
+                    :
+                        <TouchableOpacity  onPress={() => this.unlikePost()}>
+                            <Text>Deslikear</Text>
+                        </TouchableOpacity>
+                }
+                
 
             </View>
+//Revisar: No cambia a dislike
 
-            
         )
     }
 }
 
 const styles = StyleSheet.create({
-    image:{
+    image: {
         height: 100
     }
 })
