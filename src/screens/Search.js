@@ -50,12 +50,18 @@ class Search extends Component {
                     <TouchableOpacity style={styles.boton} onPress={() => this.buscar()}>
                         <Text>Buscar</Text>
                     </TouchableOpacity>
-
-                    <FlatList
+                            
+                    {
+                        this.state.busqueda == "" ?
+                        <Text>No hay resultados</Text>
+                        :
+                        <FlatList
                         data={this.state.posts}
                         keyExtractor={(post) => post.id}
                         renderItem={({ item }) => <Post postData={item} />}
-                    />
+                        />
+                    }
+                    
 
                 </View>
         )

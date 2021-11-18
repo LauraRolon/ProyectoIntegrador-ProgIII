@@ -25,6 +25,15 @@ class Post extends Component {
         }
     } //EN PROCESO
 
+    borrarPost(){
+        console.log(this.props.postData.id)
+       db.collection("posteos").doc(this.props.postData.id).delete()
+        .then(() => {
+            console.log("el posteo fue eliminado")
+        })
+        .catch(err => console.log(err))
+    }
+
     render() {
         console.log(this.props.postData)
         let {data} = this.props.postData //Destructuring
@@ -39,6 +48,15 @@ class Post extends Component {
                 <Text> {data.description} </Text>
                 <Text> {data.user} </Text>
                 <Text> {this.state.likes} </Text>
+
+                {
+                    auth.currentUser.email === data.user ? 
+                    <TouchableOpacity onPress={() => this.borrarPost()}>
+                        <Text>Borrar</Text>
+                    </TouchableOpacity> 
+                    :
+                    console.log("no se puede borrar el post")
+                }
 
                
 
