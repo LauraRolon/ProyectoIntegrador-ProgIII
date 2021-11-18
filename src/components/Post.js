@@ -10,10 +10,12 @@ class Post extends Component {
             likes: 0,
             liked: false,
             showModal: false,
-            comments: [],
+            comments: [{
+                comentario: "",
+                usuario: ""
+            }],
             commented: false,
-            text: "",
-            usuario: ""
+            text: ""
         }
     }
 
@@ -80,11 +82,10 @@ class Post extends Component {
     }
 
     comentarPost() {
-        console.log("se ha comentado el post")
         let post = db.collection("posteos").doc(this.props.postData.id)
         post.update({
             comments: {
-                text: this.state.text,
+                comentario: this.state.text,
                 usuario: auth.currentUser.email
             }
         })
@@ -92,6 +93,9 @@ class Post extends Component {
             this.setState({
                 commented: true
             })
+            console.log("se ha comentado el post")
+            console.log(this.props.postData.data.comments.comentario)
+            console.log(this.props.postData.data.comments.usuario)
         })
         .catch(err => console.log(err))
     }
@@ -171,8 +175,7 @@ class Post extends Component {
                                 keyExtractor={(item) => item.usuario}
                                 renderItem={({item}) => {
                                     <View>
-                                        <Text>{item.text}</Text>
-                                        <Text>{item.text}</Text>
+                                        <Text>{item.comentario}</Text>
                                     </View>  
                                 }}
                             />
