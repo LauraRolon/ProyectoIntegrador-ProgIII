@@ -17,6 +17,14 @@ class Post extends Component {
 
     }
 
+    recieveLikes(){
+        if (this.props.postData.data.likes){
+            this.setState({
+                likes: this.props.postData.data.likes.lenght
+            })
+        }
+    } //EN PROCESO
+
     render() {
         console.log(this.props.postData)
         let {data} = this.props.postData //Destructuring
@@ -25,9 +33,7 @@ class Post extends Component {
                 <Text> {data.titulo} </Text>
                 <Text> {data.description} </Text>
                 <Text> {data.user} </Text>
-                
-                
-
+                <Text> {this.state.likes} </Text>
             </View>
         )
     }
