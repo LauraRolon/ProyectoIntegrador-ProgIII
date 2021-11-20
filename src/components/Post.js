@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Modal, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config'
-import firebase from 'firebase'
 
 class Post extends Component {
     constructor(props) {
@@ -94,7 +93,7 @@ class Post extends Component {
                 commented: true
             })
             console.log("se ha comentado el post")
-            console.log(this.props.postData.data.comments.comentario)
+            console.log(this.state.comments.comentario)
             console.log(this.props.postData.data.comments.usuario)
         })
         .catch(err => console.log(err))
@@ -171,12 +170,15 @@ class Post extends Component {
                             </TouchableOpacity>
 
                             <FlatList
-                                data={this.props.postData.data.comments}
+                                data={this.state.comments}
                                 keyExtractor={(item) => item.usuario}
                                 renderItem={({item}) => {
                                     <View>
-                                        <Text>{item.comentario}</Text>
-                                    </View>  
+                                        <Text>Comentario: {item.comentario}</Text>
+                                        <Text>Usuario: {item.usuario}</Text>
+                                    </View>
+                                    
+                                    console.log(`Flatlist: ${item}`)
                                 }}
                             />
                             
@@ -185,11 +187,14 @@ class Post extends Component {
                                 keyboardType="default"
                                 onChangeText={text => {
                                     this.setState({
-                                        comments: text,
-                                        text: text
+                                        text: text,
+                                        comments: {
+                                            comentario: this.state.text,
+                                            usuario: auth.currentUser.email
+                                        }
                                     })
                                 }}
-                                value={this.state.busqueda}
+                                value={this.state.text}
                                 style={styles.placeholder}
                             />
 
