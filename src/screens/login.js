@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 
 export default class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       mail: this.props.mail,
@@ -10,14 +10,14 @@ export default class Login extends Component {
     }
   }
 
-componentWillMount(){
-  console.log(this.props)
-  
-}
+  componentWillMount() {
+    console.log(this.props)
+
+  }
 
   render() {
     return (
-      <View  style={styles.container}>
+      <View style={styles.container}>
 
         <Text style={styles.title}>Login</Text>
 
@@ -31,29 +31,22 @@ componentWillMount(){
         <TextInput style={styles.field}
           keyboardType="default"
           placeholder="password"
-          secureTextEntry= {true}
+          secureTextEntry={true}
           onChangeText={text => this.setState({ pass: text })}
         />
 
-<<<<<<< HEAD
-        <TouchableOpacity style={styles.touchable}
-          onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-          <Text >Login</Text>
-        </TouchableOpacity>
-=======
         {
           (this.state.mail && this.state.pass) == null ?
             <TouchableOpacity style={styles.touchable} disabled={true}
               onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
               <Text>Login</Text>
             </TouchableOpacity>
-          :
+            :
             <TouchableOpacity style={styles.touchable} disabled={false}
               onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-              <Text>Login</Text>
+              <Text style={styles.touchableText}>Login</Text>
             </TouchableOpacity>
         }
->>>>>>> e3e8e7d6d9926a5df8684a32add5de8ca1f6b2c3
 
       </View>
     )
@@ -63,21 +56,20 @@ componentWillMount(){
 
 const styles = StyleSheet.create({
   field: {
-    height: 40,
-    borderWidth:0.5,
-    borderStyle:"solid",
-    borderColor: "#grey",
-    borderRadius:6,
-    paddingHorizontal:10,
-    paddingVertical:15,
-    marginVertical:10,
+    height: 50,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginVertical: 10,
+    backgroundColor: '#dbdbdb'
   },
+
   touchable: {
     height: 40,
-    textAlign:"center",
+    textAlign: "center",
     padding: 5,
     backgroundColor: "#6213DF",
-    borderRadius:4,
+    borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 6,
     color: "#ffff"
@@ -85,15 +77,23 @@ const styles = StyleSheet.create({
 
 
   container: {
-    marginTop:20,
+    marginTop: 20,
     paddingHorizontal: 10,
-},
+  },
 
-title: {
-  color:"#6213DF",
-  textAlign:"center"
-  
-},
+  title: {
+    color: "#6213DF",
+    textAlign: "center",
+    fontSize: 40,
+    fontWeight: '500',
+    padding: 50,
+
+  },
+
+  touchableText: {
+    color: "#ffffff",
+    
+  }
 
 
 })

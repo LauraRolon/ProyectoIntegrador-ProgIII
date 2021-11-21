@@ -1,17 +1,18 @@
-import React, {Component} from "react";
-import {View, Text, TouchableOpacity, StyleSheet, FlatList} from "react-native"
+import React, { Component } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native"
 import { auth, db } from "../firebase/config";
 import Post from "../components/Post";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-class Perfil extends Component{
-    constructor(props){
+class Perfil extends Component {
+    constructor(props) {
         super(props)
-        this.state={
+        this.state = {
 
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.posteosUsuario()
     }
 
@@ -31,21 +32,23 @@ class Perfil extends Component{
         })
     }
 
-    borrarPost(){
-        
+    borrarPost() {
+
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View>
-                <Text style={styles.welcome}>Nombre usuario: {auth.currentUser.email} </Text>
-                <Text>Email: {auth.currentUser.email} </Text>
-                <Text style={styles.element}>Usuario creado el: {auth.currentUser.metadata.creationTime} </Text>
+                <TouchableOpacity style={styles.touchable} onPress={() => this.props.Logout()}>
+                    <Icon size={20} name="sign-out-alt" color="#c4c4c4" regular />
+
+                </TouchableOpacity>
+                <Text style={styles.welcome}>{auth.currentUser.email} </Text>
+                <Text style={styles.mail}> {auth.currentUser.email} </Text>
+                <Text style={styles.element}> {auth.currentUser.metadata.creationTime} </Text>
                 <Text style={styles.element}>Cantidad de posteos:  </Text>
                 <Text style={styles.element}>Último login: {auth.currentUser.metadata.lastSignInTime} </Text>
-                <TouchableOpacity style={styles.touchable} onPress={ () => this.props.Logout()}>
-                    <Text style={styles.touchableText}>Logout</Text>
-                </TouchableOpacity>
+
 
                 <FlatList
                     data={this.state.posts}
@@ -57,23 +60,25 @@ class Perfil extends Component{
     }
 }
 
-
-const styles={
-    welcome:{
+const styles = StyleSheet.create({
+    welcome: {
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: '500',
 
     },
-    element:{
-
+    mail: {
+        textAlign: "center",
+        fontSize: 14,
+        padding: 5
+        
     },
     touchable: {
-        padding: 5,
-        backgroundColor: "green",
-        marginBottom: 10,
-        borderRadius: 5,
+        marginLeft: 290,
+        marginTop: 10,
     },
-    touchableText:{
+    
+})
 
-    }
-}
 
 export default Perfil

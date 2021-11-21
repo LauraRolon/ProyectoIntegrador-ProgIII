@@ -3,89 +3,94 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { auth } from '../firebase/config'
 import { TextInput } from 'react-native-gesture-handler'
 
- class Register extends Component {
-  
-  constructor(){
+class Register extends Component {
+
+  constructor() {
     super();
     this.state = {
       email: "",
       password: "",
-      errorMessage:"",
+      user: "",
+      errorMessage: "",
     }
 
-}
-
-  register(email, password){
-    auth
-    .createUserWithEmailAndPassword(email, password)
-      .then(()=> console.log("Se registro correctamente"))
-      .catch((err)=> this.setState({errores: error.message}))
   }
-  
+
+  register(email, password, user) {
+    auth
+      .createUserWithEmailAndPassword(email, password, user)
+      .then(() => console.log("Se registro correctamente"))
+      .catch((err) => this.setState({ errores: error.message }))
+  }
+
   render() {
-    
+
     return (
       <View style={styles.container}>
-        
+
         <TextInput style={styles.input}
-          onChangeText={(text)=> this.setState({email: text})}
+          onChangeText={(text) => this.setState({ user: text })}
+          keyboardType="user-address"
+          placeholder="User"
+        />
+        <TextInput style={styles.input}
+          onChangeText={(text) => this.setState({ email: text })}
           keyboardType="email-address"
           placeholder="Email"
         />
-        <TextInput 
-        onChangeText={(text) => this.setState({password: text})}
-                    keyboardType="default"
-                    placeholder="Password"
-                    secureTextEntry={true}
-                />
+        <TextInput style={styles.input}
+          onChangeText={(text) => this.setState({ password: text })}
+          keyboardType="default"
+          placeholder="Password"
+          secureTextEntry={true}
+        />
 
-        
-        <TouchableOpacity style={styles.button} onPress={()=> this.register(this.state.email, this.state.password )}>
-                    <Text style={styles.texto}>Registrarse</Text>
-                </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={() => this.register(this.state.email, this.state.password, this.state.user)}>
+          <Text style={styles.texto}>Registrarse</Text>
+        </TouchableOpacity>
       </View>
-      
+
     )
   }
-  
+
 }
 
 const styles = StyleSheet.create({
 
   container: {
-    marginTop:20,
+    marginTop: 20,
     paddingHorizontal: 10,
-},
+  },
 
-input: {
-  height: 25,
-  borderWidth:0.5,
-  borderStyle:"solid",
-  borderColor: "#grey",
-  borderRadius:6,
-  paddingHorizontal:10,
-  paddingVertical:15,
-  marginVertical:10,
-},
-  
-  button:{
-    textAlign:"center",
+  input: {
+    height: 50,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginVertical: 10,
+    backgroundColor: '#dbdbdb'
+  },
+
+  button: {
+    height: 40,
+    textAlign: "center",
     padding: 5,
-    backgroundColor: "#28a745",
-    marginBottom: 10,
-    borderRadius:4,
+    backgroundColor: "#6213DF",
+    borderRadius: 4,
     paddingHorizontal: 10,
     paddingVertical: 6,
-    borderStyle:"solid",
-    borderWidth:1,
-    borderColor:"#28a745"
+    color: "#ffff"
   },
-  
-  texto:{
-    color:"#FFF"
-},
+
+  texto: {
+    color: "#FFF"
+  },
+
+
+
 
 })
- 
+
 
 export default Register
