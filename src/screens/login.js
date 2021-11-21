@@ -35,10 +35,25 @@ componentWillMount(){
           onChangeText={text => this.setState({ pass: text })}
         />
 
+<<<<<<< HEAD
         <TouchableOpacity style={styles.touchable}
           onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
           <Text >Login</Text>
         </TouchableOpacity>
+=======
+        {
+          (this.state.mail && this.state.pass) == null ?
+            <TouchableOpacity style={styles.touchable} disabled={true}
+              onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
+              <Text>Login</Text>
+            </TouchableOpacity>
+          :
+            <TouchableOpacity style={styles.touchable} disabled={false}
+              onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
+              <Text>Login</Text>
+            </TouchableOpacity>
+        }
+>>>>>>> e3e8e7d6d9926a5df8684a32add5de8ca1f6b2c3
 
       </View>
     )
