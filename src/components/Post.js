@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Modal, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config'
+import firebase from 'firebase'
 
 class Post extends Component {
     constructor(props) {
@@ -9,20 +10,20 @@ class Post extends Component {
             likes: 0,
             liked: false,
             showModal: false,
-            comments: [{
-                comentario: "",
-                usuario: ""
-            }],
-            commented: false,
+            comments: [],
             text: ""
         }
+    }
+
+    componentDidMount(){
+        this.recieveComments()
     }
 
     recieveLikes() {
         let likes = this.props.postData.data.likes;
         if (likes) {
             this.setState({
-                likes: likes.lengh
+                likes: likes.length
             })
 
         }
@@ -75,39 +76,30 @@ class Post extends Component {
         console.log(comentarios)
         if (this.props.postData.data.comments) {
             this.setState({
-                comments: comentarios.lengh
+                comments: comentarios.length
             })
         }
     }
 
     comentarPost() {
-        let post = db.collection("posteos").doc(this.props.postData.id)
-        post.update({
-            comments: {
-                comentario: this.state.text,
-                usuario: auth.currentUser.email
-            }
+        let comentarioPost = db.collection("posteos").doc(this.props.postData.id)
+        let oneComment = {
+            fecha: Date.now(),
+            usuario: auth.currentUser.email,
+            comentarioRealizado: this.state.text
+        }
+        
+        comentarioPost.update({
+            comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
         })
         .then(() => {
-            this.setState({
-                commented: true
-            })
             console.log("se ha comentado el post")
-            console.log(this.state.comments.comentario)
             console.log(this.props.postData.data.comments.usuario)
+            console.log(this.props.postData.data.comments.comentarioRealizado)
         })
         .catch(err => console.log(err))
     }
-
-    verComentarios() {
-        console.log(this.state.text)
-        console.log(this.state.comments)
-        console.log(this.props.postData.data.comments)
-        return (
-            <Text>{this.props.postData.data.comments}</Text>
-        )
-    }
-    
+   
 
     render() {
         console.log(this.props.postData)
@@ -146,10 +138,7 @@ class Post extends Component {
 
                 {/* COMENTARIOS */}
                 {
-                    !this.state.commented ?
-                        <Text>Aún no hay comentarios. ¡Sé el primero en comentar!</Text>
-                    :
-                        ""
+                    
                 }
                 {
                     !this.state.showModal ?
@@ -169,18 +158,24 @@ class Post extends Component {
                                 <Text>X</Text>
                             </TouchableOpacity>
 
-                            <FlatList
-                                data={this.state.comments}
-                                keyExtractor={(item) => item.usuario}
-                                renderItem={({item}) => {
-                                    <View>
-                                        <Text>Comentario: {item.comentario}</Text>
-                                        <Text>Usuario: {item.usuario}</Text>
-                                    </View>
-                                    
-                                    console.log(`Flatlist: ${item}`)
-                                }}
-                            />
+                            {
+                                this.props.postData.data.comments.length == 0 ?
+                                    <Text>No hay comentarios</Text>
+                                :
+                                <View>
+                                <Text>Acá van los comentarios</Text>
+                                   <FlatList
+                                        data={this.props.postData.data.comments} 
+                                        keyExtractor={(comment) => comment.fecha.toString()}
+                                        renderItem={({item}) => {
+                                            <Text>{item.comentarioRealizado}</Text>
+                                            console.log(`Flatlist: ${item.comentarioRealizado}`)
+                                            console.log(`Flatlist: ${item.usuario}`)
+                                        }}
+                                    /> 
+                                </View>
+                            }
+                            
                             
                             <TextInput
                                 placeholder="Agrega un comentario..."
@@ -189,8 +184,7 @@ class Post extends Component {
                                     this.setState({
                                         text: text,
                                         comments: {
-                                            comentario: this.state.text,
-                                            usuario: auth.currentUser.email
+                                            comentarioRealizado: this.state.text
                                         }
                                     })
                                 }}

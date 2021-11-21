@@ -70,7 +70,7 @@ class MyCamera extends Component{
                             <TouchableOpacity onPress={() => this.guardarFoto()}>
                                 <Text>Aceptar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.tomarFoto()}>
                                 <Text>Cancelar</Text>
                             </TouchableOpacity>
                         </View>
