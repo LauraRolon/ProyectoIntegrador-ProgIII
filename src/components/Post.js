@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, Modal, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config'
 import firebase from 'firebase'
+import Icon from 'react-native-vector-icons/FontAwesome5';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+/* import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faComment } from '@fortawesome/free-solid-svg-icons' */
+
 
 class Post extends Component {
     constructor(props) {
@@ -32,9 +37,9 @@ class Post extends Component {
                 liked: true
             })
         }
-    } 
+    }
 
-    likePost(){
+    likePost() {
         this.setState({
             likes: this.state.likes + 1,
             liked: true
@@ -42,7 +47,7 @@ class Post extends Component {
         console.log('puse like')
     }
 
-    unlikePost(){
+    unlikePost() {
         this.setState({
             likes: this.state.likes - 1,
             liked: false
@@ -50,12 +55,12 @@ class Post extends Component {
         console.log('elimine like')
     }
 
-    borrarPost(){
-       db.collection("posteos").doc(this.props.postData.id).delete()
-        .then(() => {
-            console.log("el posteo fue eliminado")
-        })
-        .catch(err => console.log(err))
+    borrarPost() {
+        db.collection("posteos").doc(this.props.postData.id).delete()
+            .then(() => {
+                console.log("el posteo fue eliminado")
+            })
+            .catch(err => console.log(err))
     }
 
     openModal() {
@@ -105,58 +110,104 @@ class Post extends Component {
         console.log(this.props.postData)
         let { data } = this.props.postData //Destructuring
         return (
-            <View>
+            <View style={styles.container}>
+                <Text style={styles.user}> {data.user} </Text>
                 <Image
                     style={styles.image}
                     source={{ uri: this.props.postData.data.foto }}
                 />
+                <View style={styles.interaction}>
+                    <Text style={styles.likes}> {this.state.likes} </Text>
+                    {
+                        !this.state.liked ?
+                            <TouchableOpacity
+                                style={styles.botonLike}
+                                onPress={() => this.likePost()}>
+                                <Icon size={25} name="heart" color="#6d6d6d" />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity
+                                style={styles.botonLike}
+                                onPress={() => this.unlikePost()}>
+                                <Icon size={25} name="heart" color="#d61525" solid />
+                            </TouchableOpacity>
+                    }
 
-                <Text> {data.titulo} </Text>
-                <Text> {data.description} </Text>
-                <Text> {data.user} </Text>
-                <Text> {this.state.likes} </Text>
 
-                {
-                    auth.currentUser.email === data.user ? 
-                    <TouchableOpacity onPress={() => this.borrarPost()}>
-                        <Text>Borrar</Text>
-                    </TouchableOpacity> 
-                    :
-                    ""
-                }
+                    {/* COMENTARIOS */}
 
-                {
-                    ! this.state.liked ?
-                        <TouchableOpacity onPress={() => this.likePost()}>
-                            <Text> Likear</Text>
-                        </TouchableOpacity>
-                    :
-                        <TouchableOpacity  onPress={() => this.unlikePost()}>
-                            <Text>Deslikear</Text>
-                        </TouchableOpacity>
-                }
+                    {
+                        !this.state.showModal ?
+                            <TouchableOpacity
+                                style={styles.botonComment}
+                                onPress={() => this.openModal()}
+                            >
+                                <Icon size={25} name="comment" color="#6d6d6d" regular />
+                            </TouchableOpacity>
+                            :
+                            <Modal
+                                visible={this.state.showModal}
+                                animationType="slide"
+                                transparent={false}
+                            >
+                                <TouchableOpacity style={styles.boton} onPress={() => this.closeModal()}>
+                                    <Text>X</Text>
+                                </TouchableOpacity>
 
-                {/* COMENTARIOS */}
+                                <FlatList
+                                    data={this.state.comments}
+                                    keyExtractor={(item) => item.usuario}
+                                    renderItem={({ item }) => {
+                                        <View>
+                                            <Text>Comentario: {item.comentario}</Text>
+                                            <Text>Usuario: {item.usuario}</Text>
+                                        </View>
+
+                                        console.log(`Flatlist: ${item}`)
+                                    }}
+                                />
+
+                                <TextInput
+                                    placeholder="Agrega un comentario..."
+                                    keyboardType="default"
+                                    onChangeText={text => {
+                                        this.setState({
+                                            text: text,
+                                            comments: {
+                                                comentario: this.state.text,
+                                                usuario: auth.currentUser.email
+                                            }
+                                        })
+                                    }}
+                                    value={this.state.text}
+                                    style={styles.placeholder}
+                                />
+
+                                <TouchableOpacity
+                                    style={styles.boton}
+                                    onPress={() => this.comentarPost()}
+                                >
+                                    <Text>Publicar</Text>
+                                </TouchableOpacity>
+                            </Modal>
+                    }
+                    {
+                        auth.currentUser.email === data.user ?
+                            <TouchableOpacity
+                                style={styles.trash}
+                                onPress={() => this.borrarPost()}>
+                                <Icon size={25} name="trash" color="#c44242" />
+                            </TouchableOpacity>
+                            :
+                            ""
+                    }
+                </View>
+
+
+
                 {
                     
                 }
-                {
-                    !this.state.showModal ?
-                        <TouchableOpacity
-                            style={styles.boton}
-                            onPress={() => this.openModal()}
-                        >
-                            <Text>Ver/Agregar comentarios</Text>
-                        </TouchableOpacity>
-                        :
-                        <Modal
-                            visible={this.state.showModal}
-                            animationType="slide"
-                            transparent={false}
-                        >
-                            <TouchableOpacity style={styles.boton} onPress={() => this.closeModal()}>
-                                <Text>X</Text>
-                            </TouchableOpacity>
 
                             {
                                 this.props.postData.data.comments.length == 0 ?
@@ -192,18 +243,19 @@ class Post extends Component {
                                 style={styles.placeholder}
                             />
 
-                            <TouchableOpacity
-                                style={styles.boton}
-                                onPress={() => this.comentarPost()}
-                            >
-                                <Text>Publicar</Text>
-                            </TouchableOpacity>
-                        </Modal>
-                }
+                <Text style={styles.titulo}> {data.titulo} </Text>
+                <Text style={styles.description}> {data.description} </Text>
+
+
+
+
+
+
+
 
 
             </View>
-//Revisar: No cambia a dislike
+            //Revisar: No cambia a dislike
 
         )
     }
@@ -211,13 +263,39 @@ class Post extends Component {
 
 const styles = StyleSheet.create({
     image: {
-        height: 200
+        height: 400
     },
-    boton: {
-        padding: 5,
-        backgroundColor: "pink",
+
+    container: {
+        marginTop: 20,
+        paddingHorizontal: 0,
+
+    },
+    interaction: {
+        marginTop: 20,
+        flex: 1,
+        flexDirection: 'row',
+
+    },
+    botonLike: {
+        
         marginBottom: 10,
         borderRadius: 5,
+        marginRight: 210
+    },
+
+    botonComment: {
+        marginRight: 50,
+        marginBottom: 10,
+        borderRadius: 5,
+         
+    },
+    trash: {
+        
+        marginBottom: 10,
+        borderRadius: 5,
+            
+
     },
     placeholder: {
         height: 40,
@@ -229,10 +307,35 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginVertical: 7,
     },
-    flatlist:{
+
+    flatlist: {
         width: 100,
         flex: 1
+    },
+
+    user: {
+        color: "#1e1e1e",
+        fontWeight: 'bold',
+        padding: 10
+    },
+    titulo: {
+        color: "#1e1e1e",
+        fontWeight: 'bold',
+        padding: 10,
+
+    },
+    description: {
+        color: "#1e1e1e",
+        paddingHorizontal: 10,
+
+    },
+    likes: {
+        color: "#1e1e1e",
+        paddingVertical: "5",
+        flex: '1'
+
     }
+
 })
 
 export default Post

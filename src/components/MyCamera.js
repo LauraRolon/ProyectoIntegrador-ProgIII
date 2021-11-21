@@ -2,6 +2,7 @@ import React, { Component } from "react/cjs/react.production.min"
 import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native"
 import { Camera } from "expo-camera";
 import {storage} from "../firebase/config"
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 class MyCamera extends Component{
     constructor(props){
@@ -85,14 +86,23 @@ class MyCamera extends Component{
                 />
 
                 <TouchableOpacity
+                style={styles.captura}
                     onPress={() => this.tomarFoto()}>
-                    <Text>Capturar</Text>
+                    <Icon size={35} name="dot-circle" color="#6d6d6d" regular />
                 </TouchableOpacity>
                 </>
                 )}
             </>
         )
     }
+    
 }
+
+const styles = StyleSheet.create({
+    captura: {
+        padding: 20,
+        alignItems: "center",
+    },
+})
 
 export default MyCamera;

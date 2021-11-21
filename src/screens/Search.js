@@ -12,7 +12,7 @@ class Search extends Component {
         }
     }
 
-    buscar(){  
+    buscar() {
         db.collection("posteos").where("user", "==", this.state.busqueda).onSnapshot((docs) => {
             let posteos = []
             docs.forEach((doc) => {
@@ -27,44 +27,42 @@ class Search extends Component {
         })
     }
 
-    consola(){
+    consola() {
         console.log(this.state.busqueda)
     }
 
     render() {
         return (
-                <View style={styles.form}>
+            <View style={styles.form}>
 
-                    <TextInput
-                        placeholder="Buscar..."
-                        keyboardType="default"
-                        onChangeText={text => 
-                            {
-                                this.setState({ 
-                                    busqueda: text 
-                                })
-                                this.consola()
-                            }}
-                        value={this.state.busqueda}
-                        style={styles.placeholder}
-                    />
+                <TextInput
+                    placeholder="Buscar..."
+                    keyboardType="default"
+                    onChangeText={text => {
+                        this.setState({ busqueda: text })
+                        this.consola()
+                    }}
+                    value={this.state.busqueda}
+                    style={styles.placeholder}
+                />
 
-                    <TouchableOpacity style={styles.boton} onPress={() => this.buscar() }>
-                        <Text>Buscar</Text>
-                    </TouchableOpacity>
-                            
-                    {
-                        this.state.busqueda == null ?
-                            <Text>No hay resultados</Text>
+                <TouchableOpacity style={styles.boton} onPress={() => this.buscar()}>
+                    <Text style={styles.touchableText}>Buscar</Text>
+                </TouchableOpacity>
+
+                {
+                    this.state.busqueda == "" ?
+                        <Text>No hay resultados</Text>
                         :
-                            <FlatList
-                                data={this.state.posts}
-                                keyExtractor={(post) => post.id}
-                                renderItem={({ item }) => <Post postData={item} />}
-                            />
-                    }                     
+                        <FlatList
+                            data={this.state.posts}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({ item }) => <Post postData={item} />}
+                        />
+                }
 
-                </View>
+
+            </View>
         )
     }
 }
@@ -75,20 +73,27 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     placeholder: {
-        height: 40,
-        borderStyle: "solid",
-        borderWidth: 2,
-        borderColor: "blue",
-        borderRadius: 10,
-        paddingHorizontal: 5,
-        paddingVertical: 5,
-        marginVertical: 7,
+        height: 50,
+        borderRadius: 6,
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        marginVertical: 10,
+        backgroundColor: '#dbdbdb'
     },
     boton: {
+        height: 40,
+        textAlign: "center",
         padding: 5,
-        backgroundColor: "green",
-        marginBottom: 10,
-        borderRadius: 5,
+        backgroundColor: "#6213DF",
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        color: "#ffff",
+    },
+
+    touchableText: {
+        color: "#ffffff",
+
     }
 })
 

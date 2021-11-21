@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 
 export default class Login extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       mail: this.props.mail,
@@ -10,16 +10,16 @@ export default class Login extends Component {
     }
   }
 
-componentWillMount(){
-  console.log(this.props)
-  
-}
+  componentWillMount() {
+    console.log(this.props)
+
+  }
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
 
-        <Text>Login</Text>
+        <Text style={styles.title}>Login</Text>
 
         <Text>{this.props.error}</Text>
         <TextInput style={styles.field}
@@ -31,7 +31,7 @@ componentWillMount(){
         <TextInput style={styles.field}
           keyboardType="default"
           placeholder="password"
-          secureTextEntry= {true}
+          secureTextEntry={true}
           onChangeText={text => this.setState({ pass: text })}
         />
 
@@ -41,10 +41,10 @@ componentWillMount(){
               onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
               <Text>Login</Text>
             </TouchableOpacity>
-          :
+            :
             <TouchableOpacity style={styles.touchable} disabled={false}
               onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-              <Text>Login</Text>
+              <Text style={styles.touchableText}>Login</Text>
             </TouchableOpacity>
         }
 
@@ -56,19 +56,44 @@ componentWillMount(){
 
 const styles = StyleSheet.create({
   field: {
-    height: 40,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "blue",
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    marginVertical: 7,
+    height: 50,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    marginVertical: 10,
+    backgroundColor: '#dbdbdb'
   },
+
   touchable: {
+    height: 40,
+    textAlign: "center",
     padding: 5,
-    backgroundColor: "green",
-    marginBottom: 10,
-    borderRadius: 5,
+    backgroundColor: "#6213DF",
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    color: "#ffff"
   },
+
+
+  container: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+
+  title: {
+    color: "#6213DF",
+    textAlign: "center",
+    fontSize: 40,
+    fontWeight: '500',
+    padding: 50,
+
+  },
+
+  touchableText: {
+    color: "#ffffff",
+    
+  }
+
+
 })
