@@ -135,7 +135,6 @@ class Post extends Component {
 
 
                     {/* COMENTARIOS */}
-
                     {
                         !this.state.showModal ?
                             <TouchableOpacity
@@ -144,7 +143,9 @@ class Post extends Component {
                             >
                                 <Icon size={25} name="comment" color="#6d6d6d" regular />
                             </TouchableOpacity>
+
                             :
+
                             <Modal
                                 visible={this.state.showModal}
                                 animationType="slide"
@@ -153,20 +154,25 @@ class Post extends Component {
                                 <TouchableOpacity style={styles.boton} onPress={() => this.closeModal()}>
                                     <Text>X</Text>
                                 </TouchableOpacity>
-
-                                <FlatList
-                                    data={this.state.comments}
-                                    keyExtractor={(item) => item.usuario}
-                                    renderItem={({ item }) => {
+                                
+                                {
+                                    this.props.postData.data.comments.length == 0 ?
+                                        <Text>No hay comentarios</Text>
+                                        :
                                         <View>
-                                            <Text>Comentario: {item.comentario}</Text>
-                                            <Text>Usuario: {item.usuario}</Text>
+                                            <Text>Acá van los comentarios</Text>
+                                            <FlatList
+                                                data={this.props.postData.data.comments}
+                                                keyExtractor={(comment) => comment.fecha.toString()}
+                                                renderItem={({ item }) => {
+                                                    <Text>{item.comentarioRealizado}</Text>
+                                                    console.log(`Flatlist: ${item.comentarioRealizado}`)
+                                                    console.log(`Flatlist: ${item.usuario}`)
+                                                }}
+                                            />
                                         </View>
-
-                                        console.log(`Flatlist: ${item}`)
-                                    }}
-                                />
-
+                                }
+                            
                                 <TextInput
                                     placeholder="Agrega un comentario..."
                                     keyboardType="default"
@@ -203,56 +209,8 @@ class Post extends Component {
                     }
                 </View>
 
-
-
-                {
-                    
-                }
-
-                            {
-                                this.props.postData.data.comments.length == 0 ?
-                                    <Text>No hay comentarios</Text>
-                                :
-                                <View>
-                                <Text>Acá van los comentarios</Text>
-                                   <FlatList
-                                        data={this.props.postData.data.comments} 
-                                        keyExtractor={(comment) => comment.fecha.toString()}
-                                        renderItem={({item}) => {
-                                            <Text>{item.comentarioRealizado}</Text>
-                                            console.log(`Flatlist: ${item.comentarioRealizado}`)
-                                            console.log(`Flatlist: ${item.usuario}`)
-                                        }}
-                                    /> 
-                                </View>
-                            }
-                            
-                            
-                            <TextInput
-                                placeholder="Agrega un comentario..."
-                                keyboardType="default"
-                                onChangeText={text => {
-                                    this.setState({
-                                        text: text,
-                                        comments: {
-                                            comentarioRealizado: this.state.text
-                                        }
-                                    })
-                                }}
-                                value={this.state.text}
-                                style={styles.placeholder}
-                            />
-
                 <Text style={styles.titulo}> {data.titulo} </Text>
                 <Text style={styles.description}> {data.description} </Text>
-
-
-
-
-
-
-
-
 
             </View>
             //Revisar: No cambia a dislike
