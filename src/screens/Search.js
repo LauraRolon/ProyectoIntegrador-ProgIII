@@ -7,7 +7,8 @@ class Search extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            busqueda: "",
+            posts: "",
+            busqueda: ""
         }
     }
 
@@ -15,7 +16,6 @@ class Search extends Component {
         db.collection("posteos").where("user", "==", this.state.busqueda).onSnapshot((docs) => {
             let posteos = []
             docs.forEach((doc) => {
-                console.log(posteos)
                 posteos.push({
                     id: doc.id,
                     data: doc.data()
@@ -40,28 +40,29 @@ class Search extends Component {
                         keyboardType="default"
                         onChangeText={text => 
                             {
-                                this.setState({ busqueda: text })
+                                this.setState({ 
+                                    busqueda: text 
+                                })
                                 this.consola()
                             }}
                         value={this.state.busqueda}
                         style={styles.placeholder}
                     />
 
-                    <TouchableOpacity style={styles.boton} onPress={() => this.buscar()}>
+                    <TouchableOpacity style={styles.boton} onPress={() => this.buscar() }>
                         <Text>Buscar</Text>
                     </TouchableOpacity>
                             
                     {
-                        this.state.busqueda == "" ?
-                        <Text>No hay resultados</Text>
+                        this.state.busqueda == null ?
+                            <Text>No hay resultados</Text>
                         :
-                        <FlatList
-                        data={this.state.posts}
-                        keyExtractor={(post) => post.id}
-                        renderItem={({ item }) => <Post postData={item} />}
-                        />
-                    }
-                    
+                            <FlatList
+                                data={this.state.posts}
+                                keyExtractor={(post) => post.id}
+                                renderItem={({ item }) => <Post postData={item} />}
+                            />
+                    }                     
 
                 </View>
         )
