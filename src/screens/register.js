@@ -25,9 +25,9 @@ import { TextInput } from 'react-native-gesture-handler'
   render() {
     
     return (
-      <View>
+      <View style={styles.container}>
         
-        <TextInput
+        <TextInput style={styles.input}
           onChangeText={(text)=> this.setState({email: text})}
           keyboardType="email-address"
           placeholder="Email"
@@ -52,6 +52,22 @@ import { TextInput } from 'react-native-gesture-handler'
 
 const styles = StyleSheet.create({
 
+  container: {
+    marginTop:20,
+    paddingHorizontal: 10,
+},
+
+input: {
+  height: 25,
+  borderWidth:0.5,
+  borderStyle:"solid",
+  borderColor: "#grey",
+  borderRadius:6,
+  paddingHorizontal:10,
+  paddingVertical:15,
+  marginVertical:10,
+},
+  
   button:{
     textAlign:"center",
     padding: 5,

@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, FlatList } from 'react-native'
 import Post from '../components/Post'
 
 
+
 class Home extends Component {
   constructor(props){
     super(props)
@@ -17,7 +18,7 @@ class Home extends Component {
   }
 
   showPost(){
-    db.collection("posteos").onSnapshot((docs) => {
+    db.collection("posteos").orderBy('createdAt', 'desc').onSnapshot((docs) => {
       let posteos = []
       docs.forEach((doc) => {
         posteos.push({ //meto en el array esto
@@ -33,7 +34,7 @@ class Home extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
           <FlatList 
                     data={this.state.posts} //el array
                     keyExtractor={(post) => post.id}
@@ -45,6 +46,13 @@ class Home extends Component {
   }
 }
 
-export default Home
 
-//VER CLASE MIN 31.00
+
+
+const styles = StyleSheet.create({
+
+ 
+
+})
+
+export default Home

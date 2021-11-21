@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Text, StyleSheet, View, Modal, TouchableOpacity, Image } from 'react-native'
 import { auth, db } from '../firebase/config'
 import firebase from 'firebase'
+import Icon from 'react-native-vector-icons/FontAwesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+/* import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faComment } from '@fortawesome/free-solid-svg-icons' */
+
 
 class Post extends Component {
     constructor(props) {
@@ -61,7 +66,7 @@ class Post extends Component {
         console.log(this.props.postData)
         let { data } = this.props.postData //Destructuring
         return (
-            <View>
+            <View style={styles.container}>
                 <Image
                     style={styles.image}
                     source={{ uri: this.props.postData.data.foto }}
@@ -84,7 +89,7 @@ class Post extends Component {
                 {
                     ! this.state.liked ?
                         <TouchableOpacity onPress={() => this.likePost()}>
-                            <Text> Likear</Text>
+                            <Text>Likear</Text>
                         </TouchableOpacity>
                     :
                         <TouchableOpacity  onPress={() => this.unlikePost()}>
@@ -102,8 +107,15 @@ class Post extends Component {
 
 const styles = StyleSheet.create({
     image: {
-        height: 100
+        height: 400
+    },
+
+    container: {
+        marginTop:20,
+        paddingHorizontal: 0,
+        
     }
+
 })
 
 export default Post

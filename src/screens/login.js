@@ -17,9 +17,9 @@ componentWillMount(){
 
   render() {
     return (
-      <View>
+      <View  style={styles.container}>
 
-        <Text>Login</Text>
+        <Text style={styles.title}>Login</Text>
 
         <Text>{this.props.error}</Text>
         <TextInput style={styles.field}
@@ -37,7 +37,7 @@ componentWillMount(){
 
         <TouchableOpacity style={styles.touchable}
           onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-          <Text>Login</Text>
+          <Text >Login</Text>
         </TouchableOpacity>
 
       </View>
@@ -49,18 +49,36 @@ componentWillMount(){
 const styles = StyleSheet.create({
   field: {
     height: 40,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "blue",
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    marginVertical: 7,
+    borderWidth:0.5,
+    borderStyle:"solid",
+    borderColor: "#grey",
+    borderRadius:6,
+    paddingHorizontal:10,
+    paddingVertical:15,
+    marginVertical:10,
   },
   touchable: {
+    height: 40,
+    textAlign:"center",
     padding: 5,
-    backgroundColor: "green",
-    marginBottom: 10,
-    borderRadius: 5,
+    backgroundColor: "#6213DF",
+    borderRadius:4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    color: "#ffff"
   },
+
+
+  container: {
+    marginTop:20,
+    paddingHorizontal: 10,
+},
+
+title: {
+  color:"#6213DF",
+  textAlign:"center"
+  
+},
+
+
 })
