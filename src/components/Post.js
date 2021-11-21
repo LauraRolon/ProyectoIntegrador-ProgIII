@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 import { Text, StyleSheet, View, Modal, TouchableOpacity, Image, TextInput, FlatList } from 'react-native'
 import { auth, db } from '../firebase/config'
-<<<<<<< HEAD
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 /* import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faComment } from '@fortawesome/free-solid-svg-icons' */
 
-=======
->>>>>>> e3e8e7d6d9926a5df8684a32add5de8ca1f6b2c3
 
 class Post extends Component {
     constructor(props) {
@@ -226,7 +223,6 @@ class Post extends Component {
 
 const styles = StyleSheet.create({
     image: {
-<<<<<<< HEAD
         height: 400
     },
 
@@ -234,7 +230,6 @@ const styles = StyleSheet.create({
         marginTop:20,
         paddingHorizontal: 0,
         
-=======
         height: 200
     },
     boton: {
@@ -256,7 +251,6 @@ const styles = StyleSheet.create({
     flatlist:{
         width: 100,
         flex: 1
->>>>>>> e3e8e7d6d9926a5df8684a32add5de8ca1f6b2c3
     }
 
 })
