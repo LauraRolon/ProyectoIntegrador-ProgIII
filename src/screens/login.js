@@ -6,7 +6,7 @@ export default class Login extends Component {
     super(props);
     this.state = {
       mail: this.props.mail,
-      pass: this.props.pass
+      pass: this.props.pass,
     }
   }
 
@@ -22,10 +22,12 @@ export default class Login extends Component {
         <Text style={styles.title}>Login</Text>
 
         <Text>{this.props.error}</Text>
+
         <TextInput style={styles.field}
           keyboardType="email-address"
           placeholder="mail"
           onChangeText={text => this.setState({ mail: text })}
+          value={this.state.mail}
         />
 
         <TextInput style={styles.field}
@@ -33,20 +35,18 @@ export default class Login extends Component {
           placeholder="password"
           secureTextEntry={true}
           onChangeText={text => this.setState({ pass: text })}
+          value={this.state.pass}
         />
 
-        {
-          (this.state.mail && this.state.pass) == null ?
-            <TouchableOpacity style={styles.touchable} disabled={true}
+  
+            <TouchableOpacity 
+              style={(this.state.mail && this.state.pass) == null ? styles.touchableUnable : styles.touchable}
+              disabled={(this.state.mail && this.state.pass) == null ? true : false}
               onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
               <Text>Login</Text>
             </TouchableOpacity>
-            :
-            <TouchableOpacity style={styles.touchable} disabled={false}
-              onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-              <Text style={styles.touchableText}>Login</Text>
-            </TouchableOpacity>
-        }
+            
+
 
       </View>
     )
@@ -74,7 +74,16 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     color: "#ffff"
   },
-
+  touchableUnable:{
+    height: 40,
+    textAlign: "center",
+    padding: 5,
+    backgroundColor: "#cdc3db",
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    color: "#ffff"
+  },
 
   container: {
     marginTop: 20,

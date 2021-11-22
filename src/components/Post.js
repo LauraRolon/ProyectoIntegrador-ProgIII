@@ -141,7 +141,11 @@ class Post extends Component {
                                 style={styles.botonComment}
                                 onPress={() => this.openModal()}
                             >
-                                <Icon size={25} name="comment" color="#6d6d6d" regular />
+                                <Text>
+                                    {`${this.props.postData.data.comments.length}  `}
+                                    <Icon size={25} name="comment" color="#6d6d6d" regular /> 
+                                </Text>
+                                
                             </TouchableOpacity>
 
                             :
@@ -151,30 +155,35 @@ class Post extends Component {
                                 animationType="slide"
                                 transparent={false}
                             >
-                                <TouchableOpacity style={styles.boton} onPress={() => this.closeModal()}>
-                                    <Text>X</Text>
+                                <TouchableOpacity onPress={() => this.closeModal()}>
+                                    <Icon style={styles.salir} size={22} name="arrow-left" color="#6d6d6d"/>
                                 </TouchableOpacity>
                                 
                                 {
                                     this.props.postData.data.comments.length == 0 ?
-                                        <Text>No hay comentarios</Text>
+                                        <Text style={{lineHeight: 30, fontSize: 16}}>Aún no hay comentarios, ¡sé el primero en comentar!</Text>
                                         :
                                         <View>
-                                            <Text>Acá van los comentarios</Text>
                                             <FlatList
+                                                style={styles.flatlist}
                                                 data={this.props.postData.data.comments}
-                                                keyExtractor={(comment) => comment.fecha.toString()}
-                                                renderItem={({ item }) => {
-                                                    <Text>{item.comentarioRealizado}</Text>
-                                                    console.log(`Flatlist: ${item.comentarioRealizado}`)
-                                                    console.log(`Flatlist: ${item.usuario}`)
+                                                keyExtractor={(data) => data.fecha.toString()}
+                                                renderItem={({item}) => {
+                                                    return(
+                                                        <View>
+                                                            <Text style={{lineHeight: 25}}>
+                                                                <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.usuario} `}</Text>
+                                                                <Text style={{ fontSize: 16 }}>{item.comentarioRealizado}</Text>
+                                                            </Text>
+                                                        </View>
+                                                    )
                                                 }}
                                             />
                                         </View>
                                 }
                             
                                 <TextInput
-                                    placeholder="Agrega un comentario..."
+                                    placeholder="Agregar comentario..."
                                     keyboardType="default"
                                     onChangeText={text => {
                                         this.setState({
@@ -190,11 +199,16 @@ class Post extends Component {
                                 />
 
                                 <TouchableOpacity
-                                    style={styles.boton}
+                                    disabled={this.state.text == "" ? true : false}
+                                    style={this.state.text == "" ? styles.boton :styles.botonPublicar}
                                     onPress={() => this.comentarPost()}
                                 >
-                                    <Text>Publicar</Text>
+                                    <Text style={ {color: "white", fontSize: 17} }>Publicar</Text>
                                 </TouchableOpacity>
+
+                                {
+
+                                }
                             </Modal>
                     }
                     {
@@ -267,8 +281,9 @@ const styles = StyleSheet.create({
     },
 
     flatlist: {
-        width: 100,
-        flex: 1
+        flex: 1,
+        paddingHorizontal: 7
+
     },
 
     user: {
@@ -292,8 +307,31 @@ const styles = StyleSheet.create({
         paddingVertical: "5",
         flex: '1'
 
+    },
+    botonPublicar: {
+        height: 40,
+        textAlign: "center",
+        padding: 5,
+        backgroundColor: "#6213DF",
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        color: "#ffff",
+    },
+    boton: {
+        height: 40,
+        textAlign: "center",
+        padding: 5,
+        backgroundColor: "#cdc3db",
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        color: "#ffff",
+    }, 
+    salir:{ 
+        paddingVertical: 10, 
+        paddingHorizontal: 7
     }
-
 })
 
 export default Post

@@ -8,12 +8,13 @@ class Perfil extends Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            posts: ""
         }
     }
 
     componentDidMount() {
         this.posteosUsuario()
+        console.log(`Esto hay en posteos: ${this.state.posts}`)
     }
 
     posteosUsuario() {
@@ -46,7 +47,7 @@ class Perfil extends Component {
                 <Text style={styles.welcome}>{auth.currentUser.email} </Text>
                 <Text style={styles.mail}> {auth.currentUser.email} </Text>
                 <Text style={styles.element}> {auth.currentUser.metadata.creationTime} </Text>
-                <Text style={styles.element}>Cantidad de posteos:  </Text>
+                <Text style={styles.element}>Cantidad de posteos: {this.state.posts.length}  </Text>
                 <Text style={styles.element}>Último login: {auth.currentUser.metadata.lastSignInTime} </Text>
 
 
