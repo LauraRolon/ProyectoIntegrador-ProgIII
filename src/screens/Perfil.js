@@ -33,29 +33,31 @@ class Perfil extends Component {
         })
     }
 
-    borrarPost() {
-
-    }
-
     render() {
         return (
             <View>
                 <TouchableOpacity style={styles.touchable} onPress={() => this.props.Logout()}>
-                    <Icon size={20} name="sign-out-alt" color="#c4c4c4" regular />
+                    <Icon size={25} name="sign-out-alt" color="grey" regular />
 
                 </TouchableOpacity>
                 <Text style={styles.welcome}>{auth.currentUser.email} </Text>
                 <Text style={styles.mail}> {auth.currentUser.email} </Text>
-                <Text style={styles.element}> {auth.currentUser.metadata.creationTime} </Text>
-                <Text style={styles.element}>Cantidad de posteos: {this.state.posts.length}  </Text>
-                <Text style={styles.element}>Último login: {auth.currentUser.metadata.lastSignInTime} </Text>
+                <Text style={styles.element}><Text style={{fontWeight: "bold"}}>Último login: </Text> {auth.currentUser.metadata.lastSignInTime}</Text>
+                <Text style={styles.element}><Text style={{fontWeight: "bold"}}>Cantidad de posteos: </Text> {this.state.posts.length}</Text>
+                <Text style={styles.element}><Text style={{ fontWeight: "bold" }}>Creación del perfil: </Text> {auth.currentUser.metadata.creationTime} </Text>
 
+                {
+                    this.state.posts == "" ?
+                        <Text style={styles.publicaciones}>Aún no hay publicaciones.</Text>
+                    :
+                        <FlatList
+                            data={this.state.posts}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({ item }) => <Post postData={item} />}
+                        />
+                }
 
-                <FlatList
-                    data={this.state.posts}
-                    keyExtractor={(post) => post.id}
-                    renderItem={({ item }) => <Post postData={item} />}
-                />
+                
             </View>
         )
     }
@@ -71,13 +73,24 @@ const styles = StyleSheet.create({
     mail: {
         textAlign: "center",
         fontSize: 14,
-        padding: 5
+        padding: 5,
+        marginBottom: 30
         
     },
     touchable: {
-        marginLeft: 290,
+        marginLeft: 370,
         marginTop: 10,
     },
+    element:{
+        lineHeight: 30,
+        fontSize: 16,
+
+    },
+    publicaciones:{
+        fontSize: 16,
+        textAlign: "center",
+        marginTop: 25
+    }
     
 })
 
