@@ -236,23 +236,20 @@ const styles = StyleSheet.create({
 
     },
     botonLike: {
-        
-        marginBottom: 10,
-        borderRadius: 5,
-        marginRight: 210
+        marginRight: 200,
     },
 
     botonComment: {
-        marginRight: 50,
-        marginBottom: 10,
-        borderRadius: 5,
+        marginRight: 40,
          
     },
-    trash: {
+    trash: {      
         
-        marginBottom: 10,
-        borderRadius: 5,
-            
+    },
+    likes: {
+        color: "#1e1e1e",
+        paddingVertical: "5",
+        flex: '1'
 
     },
     placeholder: {
@@ -287,12 +284,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
 
     },
-    likes: {
-        color: "#1e1e1e",
-        paddingVertical: "5",
-        flex: '1'
-
-    }
+    
 
 })
 
