@@ -15,16 +15,20 @@ class MyCamera extends Component{
     }
 
     componentDidMount(){
+        this.startCamera()
+    }
+
+    startCamera(){
         Camera.requestCameraPermissionsAsync()
-        .then(() => {
-            this.setState({
-                permission: true
+            .then(() => {
+                this.setState({
+                    permission: true
+                })
             })
-        })
-        .catch(err => console.log(err))
+            .catch(err => console.log(err))
 
         Camera.getAvailableCameraTypesAsync()
-        .then((res) => console.log(res))
+            .then((res) => console.log(res))
     }
 
     tomarFoto(){
@@ -57,6 +61,13 @@ class MyCamera extends Component{
         .catch(err => console.log(err))
     }
 
+    reTake(){
+        this.setState({
+            foto: ""
+        })
+        this.startCamera()
+    }
+
     render(){
         return(
             <>
@@ -66,14 +77,13 @@ class MyCamera extends Component{
                             style={{flex:1}}
                             source={{uri: this.state.foto}}
                         />
-                        <View>
-                            <Text>¿Está seguro de publicar esta imagen?</Text>
-                            <TouchableOpacity onPress={() => this.guardarFoto()}>
-                                <Text>Aceptar</Text>
+                        <View style={styles.botones}>
+                            <TouchableOpacity style={styles.captura} onPress={() => this.guardarFoto()}>
+                                <Icon size={25} name="check" color="#6d6d6d" regular />
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.tomarFoto()}>
-                                <Text>Cancelar</Text>
-                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.captura} onPress={() => this.reTake()}>
+                                <Icon size={25} name="times" color="#6d6d6d" regular />
+                            </TouchableOpacity>    
                         </View>
                     </>
                 ) : (
@@ -103,6 +113,12 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: "center",
     },
+    botones: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center"
+
+    }
 })
 
 export default MyCamera;
