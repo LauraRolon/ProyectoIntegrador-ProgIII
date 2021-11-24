@@ -33,29 +33,52 @@ class Perfil extends Component {
         })
     }
 
-    borrarPost() {
-
-    }
-
     render() {
         return (
             <View>
                 <TouchableOpacity style={styles.touchable} onPress={() => this.props.Logout()}>
-                    <Icon size={20} name="sign-out-alt" color="#c4c4c4" regular />
+                    <Icon size={25} name="sign-out-alt" color="grey" regular />
 
                 </TouchableOpacity>
-                <Text style={styles.welcome}>{auth.currentUser.displayName} </Text>
-                <Text style={styles.mail}> {auth.currentUser.email} </Text>
-                <Text style={styles.element}> {auth.currentUser.metadata.creationTime} </Text>
-                <Text style={styles.element}>Cantidad de posteos: {this.state.posts.length}  </Text>
-                <Text style={styles.element}>Último login: {auth.currentUser.metadata.lastSignInTime} </Text>
 
+                <View style={{alignItems:"center"}}>
+                    <Icon size={50} name="user-circle" color="#CCA9DD" solid/>
+                </View>
+                <Text style={styles.welcome}>{auth.currentUser.email} </Text>
+                
+                <View style={styles.iconos}> 
+                    <Icon size={20} name="at" color="#6213DF" />
+                    <Text style={styles.element}> {auth.currentUser.email} </Text>
+                </View>
 
-                <FlatList
-                    data={this.state.posts}
-                    keyExtractor={(post) => post.id}
-                    renderItem={({ item }) => <Post postData={item} />}
-                />
+                <View style={styles.iconos}>
+                    <Icon size={25} name="images" color="#6213DF" />
+                    <Text style={styles.element}><Text style={{ fontWeight: "bold" }}>{this.state.posts.length} </Text> Publicaciones</Text>
+                </View>
+
+                <View style={styles.iconos}>
+                    <Icon size={25} name="clock" color="#6213DF" />
+                    <Text style={styles.element}><Text style={{fontWeight: "bold"}}> Último login: </Text> {auth.currentUser.metadata.lastSignInTime}</Text>
+                </View>
+
+                <View style={styles.iconos}>
+                    <Icon size={25} name="calendar-check" color="#6213DF" />
+                    <Text style={styles.element}><Text style={{ fontWeight: "bold" }}>Creación perfil: </Text> {auth.currentUser.metadata.creationTime} </Text>
+                </View>
+
+                {
+                    this.state.posts == "" ?
+                        <Text style={styles.publicaciones}>Aún no hay publicaciones.</Text>
+                    :
+                        <FlatList
+                            data={this.state.posts}
+                            keyExtractor={(post) => post.id}
+                            renderItem={({ item }) => <Post postData={item} />}
+                            style={{marginTop: 40}}
+                        />
+                }
+
+                
             </View>
         )
     }
@@ -66,18 +89,31 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 20,
         fontWeight: '500',
+        marginBottom: 50
 
     },
-    mail: {
-        textAlign: "center",
-        fontSize: 14,
-        padding: 5
-        
-    },
     touchable: {
-        marginLeft: 290,
+        marginLeft: 370,
         marginTop: 10,
     },
+    element:{
+        lineHeight: 30,
+        fontSize: 16,
+        fontWeight: "bold",
+        marginLeft: 10
+
+    },
+    publicaciones:{
+        fontSize: 16,
+        textAlign: "center",
+        marginTop: 30
+    },
+    iconos:{
+        alignItems:"center",
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        paddingVertical: 15
+    }
     
 })
 

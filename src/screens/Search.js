@@ -8,7 +8,8 @@ class Search extends Component {
         super(props)
         this.state = {
             posts: "",
-            busqueda: ""
+            busqueda: "",
+            showText: false
         }
     }
 
@@ -22,7 +23,8 @@ class Search extends Component {
                 })
             })
             this.setState({
-                posts: posteos
+                posts: posteos,
+                showText: true
             })
         })
     }
@@ -46,13 +48,16 @@ class Search extends Component {
                     style={styles.placeholder}
                 />
 
-                <TouchableOpacity style={styles.boton} onPress={() => this.buscar()}>
+                <TouchableOpacity
+                    disabled={this.state.busqueda == "" ? true : false}
+                    style={this.state.busqueda == "" ? styles.boton : styles.botonComentar}
+                    onPress={() => this.buscar()}>
                     <Text style={styles.touchableText}>Buscar</Text>
                 </TouchableOpacity>
 
                 {
-                    this.state.busqueda == "" ?
-                        <Text>No hay resultados</Text>
+                    this.state.posts == "" && this.state.showText?
+                        <Text style={styles.textInfo}>El usuario no existe o aún no tiene publicaciones.</Text>
                         :
                         <FlatList
                             data={this.state.posts}
@@ -94,6 +99,32 @@ const styles = StyleSheet.create({
     touchableText: {
         color: "#ffffff",
 
+    },
+    textInfo:{
+        fontSize: 16,
+        textAlign: "center",
+        paddingVertical: 20,
+        paddingHorizontal: 10
+    },
+    botonComentar: {
+        height: 40,
+        textAlign: "center",
+        padding: 5,
+        backgroundColor: "#6213DF",
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        color: "#ffff",
+    },
+    boton: {
+        height: 40,
+        textAlign: "center",
+        padding: 5,
+        backgroundColor: "#cdc3db",
+        borderRadius: 4,
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        color: "#ffff",
     }
 })
 

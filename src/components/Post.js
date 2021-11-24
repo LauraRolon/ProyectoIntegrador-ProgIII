@@ -14,14 +14,15 @@ class Post extends Component {
             liked: false,
             showModal: false,
             comments: [],
-            text: ""
-
+            text: "",
+            borrado: false
         }
         console.log(this.props.postData.id)
     }
 
     componentDidMount() {
         this.recieveComments()
+        this.recieveLikes()
     }
 
     recieveLikes() {
@@ -70,6 +71,7 @@ class Post extends Component {
         db.collection("posteos").doc(this.props.postData.id).delete()
             .then(() => {
                 console.log("el posteo fue eliminado")
+                this.setState({borrado: false})
             })
             .catch(err => console.log(err))
     }
@@ -224,14 +226,30 @@ class Post extends Component {
                     }
                     
                     {
-                        auth.currentUser.email === data.user ?
-                            ""
-                            :
+                        (auth.currentUser.email === data.user && !this.state.borrado) ?
                             <TouchableOpacity
                                 style={styles.trash}
-                                onPress={() => this.borrarPost()}>
-                                <Icon size={25} name="trash" color="#c44242" />
+                                onPress={() => this.setState({borrado: true})}>
+                                    <Icon size={25} name="trash" color="#c44242" />
                             </TouchableOpacity>
+                        :
+                            <Modal
+                                visible={this.state.borrado}
+                                animationType="slide"
+                                transparent={false}
+                            >
+                                <View>
+                                    <Text style={styles.textos}>¿Está seguro de borrar la publicación?</Text>
+                                    <View style={styles.opcionesBorrado}>
+                                        <TouchableOpacity style={styles.opciones} onPress={() => this.borrarPost()}>
+                                            <Icon size={25} name="check" color="#6d6d6d" regular />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.opciones} onPress={() => this.setState({borrado: false})}>
+                                            <Icon size={25} name="times" color="#6d6d6d" regular />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
                     }
                 </View>
 
@@ -272,6 +290,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 5,
         marginVertical: 7,
+        marginTop: 25
     },
     botonComment:{
         display:'flex',
@@ -288,17 +307,20 @@ const styles = StyleSheet.create({
     user: {
         color: "#1e1e1e",
         fontWeight: 'bold',
-        padding: 10
+        padding: 10,
+        fontSize: 16
     },
     titulo: {
         color: "#1e1e1e",
         fontWeight: 'bold',
         padding: 10,
+        fontSize: 15
 
     },
     description: {
         color: "#1e1e1e",
         paddingHorizontal: 10,
+        fontSize: 15
 
     },
     likes: {
@@ -330,6 +352,21 @@ const styles = StyleSheet.create({
     salir: {
         paddingVertical: 10,
         paddingHorizontal: 7
+    },
+    opciones: {
+        padding: 20,
+        alignItems: "center",
+    },
+    opcionesBorrado: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    textos: { 
+        lineHeight: 30, 
+        fontSize: 16,
+        textAlign: "center",
+        paddingVertical: 10 
     }
 })
 
