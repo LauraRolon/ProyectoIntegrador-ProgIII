@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 
     },
     touchable: {
-        marginLeft: 370,
+        marginLeft: 275,
         marginTop: 10,
     },
     element:{

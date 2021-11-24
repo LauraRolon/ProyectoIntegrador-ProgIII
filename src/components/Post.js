@@ -104,7 +104,8 @@ class Post extends Component {
         let oneComment = {
             fecha: Date.now(),
             usuario: auth.currentUser.email,
-            comentarioRealizado: this.state.text
+            comentarioRealizado: this.state.text,
+            userName: auth.currentUser.displayName,
         }
 
         comentarioPost.update({
