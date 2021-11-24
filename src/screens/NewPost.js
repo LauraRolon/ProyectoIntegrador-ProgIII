@@ -19,6 +19,7 @@ class NewPost extends Component {
             createdAt: Date.now(),
             titulo: this.state.titulo,
             description: this.state.description,
+            userName: auth.currentUser.displayName,
             likes: [],
             comments: [], //array de objetos literales
             foto: this.state.url

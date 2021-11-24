@@ -44,7 +44,7 @@ class Perfil extends Component {
                 <View style={{alignItems:"center"}}>
                     <Icon size={50} name="user-circle" color="#CCA9DD" solid/>
                 </View>
-                <Text style={styles.welcome}>{auth.currentUser.email} </Text>
+                <Text style={styles.welcome}>{auth.currentUser.displayName} </Text>
                 
                 <View style={styles.iconos}> 
                     <Icon size={20} name="at" color="#6213DF" />

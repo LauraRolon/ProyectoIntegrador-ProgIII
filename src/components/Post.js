@@ -124,7 +124,7 @@ class Post extends Component {
         let { data } = this.props.postData //Destructuring
         return (
             <View style={styles.container}>
-                <Text style={styles.user}> {data.user} </Text>
+                <Text style={styles.user}> {data.userName} </Text>
                 <Image
                     style={styles.image}
                     source={{ uri: this.props.postData.data.foto }}
@@ -137,13 +137,11 @@ class Post extends Component {
                     {
                         ! this.state.liked ?
                             <TouchableOpacity
-                                style={styles.botonLike}
                                 onPress={() => this.likePost(this.props.postData.id)}>
                                     <Icon size={25} name="heart" color="#6d6d6d" />
                             </TouchableOpacity>
                         :
                             <TouchableOpacity
-                                style={styles.botonLike}
                                 onPress={() => this.unlikePost(this.props.postData.id)}>
                                     <Icon size={25} name="heart" color="#d61525" solid />
                             </TouchableOpacity>
@@ -185,7 +183,7 @@ class Post extends Component {
                                                     return (
                                                         <View>
                                                             <Text style={{ lineHeight: 25 }}>
-                                                                <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.usuario} `}</Text>
+                                                                <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.userName} `}</Text>
                                                                 <Text style={{ fontSize: 16 }}>{item.comentarioRealizado}</Text>
                                                             </Text>
                                                         </View>
