@@ -15,14 +15,12 @@ class Perfil extends Component {
 
     componentDidMount() {
         this.posteosUsuario()
-        console.log(`Esto hay en posteos: ${this.state.posts}`)
     }
 
     posteosUsuario() {
         db.collection("posteos").where("user", "==", auth.currentUser.email).orderBy("createdAt", "desc").onSnapshot((docs) => {
             let posteos = []
             docs.forEach((doc) => {
-                console.log(posteos)
                 posteos.push({
                     id: doc.id,
                     data: doc.data()
@@ -75,8 +73,6 @@ class Perfil extends Component {
                 </View>
 
 
-               
-
                 {
                     this.state.posts == "" ?
                         <Text style={styles.publicaciones}>Aún no hay publicaciones.</Text>
@@ -88,8 +84,7 @@ class Perfil extends Component {
                             style={{ marginTop: 40 }}
                         />
                 }
-
-
+                
             </View>
         )
     }

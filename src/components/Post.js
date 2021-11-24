@@ -17,7 +17,6 @@ class Post extends Component {
             text: "",
             borrado: false
         }
-        console.log(this.props.postData.id)
     }
 
     componentDidMount() {
@@ -70,7 +69,6 @@ class Post extends Component {
     borrarPost() {
         db.collection("posteos").doc(this.props.postData.id).delete()
             .then(() => {
-                console.log("el posteo fue eliminado")
                 this.setState({borrado: false})
             })
             .catch(err => console.log(err))
@@ -91,8 +89,7 @@ class Post extends Component {
     // COMENTARIOS
     recieveComments() {
         let comentarios = this.props.postData.data.comments;
-        console.log(comentarios)
-        if (this.props.postData.data.comments) {
+        if (comentarios) {
             this.setState({
                 comments: comentarios.length
             })
@@ -111,17 +108,14 @@ class Post extends Component {
         comentarioPost.update({
             comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
         })
-            .then(() => {
-                console.log("se ha comentado el post")
-                console.log(this.props.postData.data.comments.usuario)
-                console.log(this.props.postData.data.comments.comentarioRealizado)
-            })
-            .catch(err => console.log(err))
+        .then(() => {
+            console.log("se ha comentado el post")
+        })
+        .catch(err => console.log(err))
     }
 
 
     render() {
-        console.log(this.props.postData)
         let { data } = this.props.postData //Destructuring
         return (
             <View style={styles.container}>
@@ -148,8 +142,6 @@ class Post extends Component {
                             </TouchableOpacity>
                     } 
                     
-                    
-
 
                     {/* COMENTARIOS */}
                     {
@@ -174,22 +166,20 @@ class Post extends Component {
                                 {
                                     this.props.postData.data.comments.length == 0 ?
                                         <Text style={{ lineHeight: 30, fontSize: 16 }}>Aún no hay comentarios, ¡sé el primero en comentar!</Text>
-                                        :
+                                    :
                                         <View>
                                             <FlatList
                                                 style={styles.flatlist}
                                                 data={this.props.postData.data.comments}
                                                 keyExtractor={(data) => data.fecha.toString()}
-                                                renderItem={({ item }) => {
-                                                    return (
-                                                        <View>
-                                                            <Text style={{ lineHeight: 25 }}>
-                                                                <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.userName} `}</Text>
-                                                                <Text style={{ fontSize: 16 }}>{item.comentarioRealizado}</Text>
-                                                            </Text>
-                                                        </View>
-                                                    )
-                                                }}
+                                                renderItem={({ item }) => 
+                                                    <View>
+                                                        <Text style={{ lineHeight: 25 }}>
+                                                            <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.userName} `}</Text>
+                                                            <Text style={{ fontSize: 16 }}>{item.comentarioRealizado}</Text>
+                                                        </Text>
+                                                    </View>  
+                                                }
                                             />
                                         </View>
                                 }

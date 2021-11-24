@@ -29,10 +29,6 @@ class Search extends Component {
         })
     }
 
-    consola() {
-        console.log(this.state.busqueda)
-    }
-
     render() {
         return (
             <View style={styles.form}>
@@ -42,7 +38,6 @@ class Search extends Component {
                     keyboardType="default"
                     onChangeText={text => {
                         this.setState({ busqueda: text })
-                        this.consola()
                     }}
                     value={this.state.busqueda}
                     style={styles.placeholder}
