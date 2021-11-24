@@ -70,7 +70,7 @@ class NewPost extends Component {
                     />
 
                     <TouchableOpacity style={styles.boton} onPress={() => this.submitPost()}>
-                        <Text>Postear</Text>
+                        <Text  style={styles.texto}>Postear</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     color: "#ffff"
+    },
+    texto:{
+        color:"#FFF"
     },
     
 
