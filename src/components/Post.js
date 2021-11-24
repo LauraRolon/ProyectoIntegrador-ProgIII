@@ -3,9 +3,7 @@ import { Text, StyleSheet, View, Modal, TouchableOpacity, Image, TextInput, Flat
 import { auth, db } from '../firebase/config'
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-// import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-/* import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faComment } from '@fortawesome/free-solid-svg-icons' */
+
 
 
 class Post extends Component {
@@ -17,10 +15,12 @@ class Post extends Component {
             showModal: false,
             comments: [],
             text: ""
+
         }
+        console.log(this.props.postData.id)
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.recieveComments()
     }
 
@@ -39,19 +39,30 @@ class Post extends Component {
         }
     }
 
-    likePost() {
-        this.setState({
-            likes: this.state.likes + 1,
-            liked: true
+    likePost(id) {
+        console.log(id)
+        db.collection("posteos").doc(id).update({
+            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email + ",")
+        }).then(() => {
+            this.setState({
+                likes: this.state.likes + 1,
+                liked: true
+            })
         })
+            .catch((err) => { console.log(err) })
         console.log('puse like')
     }
 
     unlikePost() {
-        this.setState({
-            likes: this.state.likes - 1,
-            liked: false
+        db.collection("posteos").doc(id).update({
+            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email + ",")
+        }).then(() => {
+            this.setState({
+                likes: this.state.likes - 1,
+                liked: false
+            })
         })
+            .catch((err) => { console.log(err) })
         console.log('elimine like')
     }
 
@@ -93,18 +104,18 @@ class Post extends Component {
             usuario: auth.currentUser.email,
             comentarioRealizado: this.state.text
         }
-        
+
         comentarioPost.update({
             comments: firebase.firestore.FieldValue.arrayUnion(oneComment)
         })
-        .then(() => {
-            console.log("se ha comentado el post")
-            console.log(this.props.postData.data.comments.usuario)
-            console.log(this.props.postData.data.comments.comentarioRealizado)
-        })
-        .catch(err => console.log(err))
+            .then(() => {
+                console.log("se ha comentado el post")
+                console.log(this.props.postData.data.comments.usuario)
+                console.log(this.props.postData.data.comments.comentarioRealizado)
+            })
+            .catch(err => console.log(err))
     }
-   
+
 
     render() {
         console.log(this.props.postData)
@@ -116,22 +127,27 @@ class Post extends Component {
                     style={styles.image}
                     source={{ uri: this.props.postData.data.foto }}
                 />
-                <View style={styles.interaction}>
-                    <Text style={styles.likes}> {this.state.likes} </Text>
+
+                <View style={styles.interaction} >
+
+                    <Text> {this.props.postData.data.likes.length} </Text>
+
                     {
-                        !this.state.liked ?
+                        ! this.state.liked ?
                             <TouchableOpacity
                                 style={styles.botonLike}
-                                onPress={() => this.likePost()}>
-                                <Icon size={25} name="heart" color="#6d6d6d" />
+                                onPress={() => this.likePost(this.props.postData.id)}>
+                                    <Icon size={25} name="heart" color="#6d6d6d" />
                             </TouchableOpacity>
-                            :
+                        :
                             <TouchableOpacity
                                 style={styles.botonLike}
-                                onPress={() => this.unlikePost()}>
-                                <Icon size={25} name="heart" color="#d61525" solid />
+                                onPress={() => this.unlikePost(this.props.postData.id)}>
+                                    <Icon size={25} name="heart" color="#d61525" solid />
                             </TouchableOpacity>
-                    }
+                    } 
+                    
+                    
 
 
                     {/* COMENTARIOS */}
@@ -141,37 +157,32 @@ class Post extends Component {
                                 style={styles.botonComment}
                                 onPress={() => this.openModal()}
                             >
-                                <Text>
-                                    {`${this.props.postData.data.comments.length}  `}
-                                    <Icon size={25} name="comment" color="#6d6d6d" regular /> 
-                                </Text>
-                                
+                                <Text>{`${this.props.postData.data.comments.length} `}</Text>
+                                <Icon size={25} name="comment" color="#6d6d6d" regular />
                             </TouchableOpacity>
-
-                            :
-
+                        :
                             <Modal
                                 visible={this.state.showModal}
                                 animationType="slide"
                                 transparent={false}
                             >
                                 <TouchableOpacity onPress={() => this.closeModal()}>
-                                    <Icon style={styles.salir} size={22} name="arrow-left" color="#6d6d6d"/>
+                                    <Icon style={styles.salir} size={22} name="arrow-left" color="#6d6d6d" />
                                 </TouchableOpacity>
-                                
+
                                 {
                                     this.props.postData.data.comments.length == 0 ?
-                                        <Text style={{lineHeight: 30, fontSize: 16}}>Aún no hay comentarios, ¡sé el primero en comentar!</Text>
+                                        <Text style={{ lineHeight: 30, fontSize: 16 }}>Aún no hay comentarios, ¡sé el primero en comentar!</Text>
                                         :
                                         <View>
                                             <FlatList
                                                 style={styles.flatlist}
                                                 data={this.props.postData.data.comments}
                                                 keyExtractor={(data) => data.fecha.toString()}
-                                                renderItem={({item}) => {
-                                                    return(
+                                                renderItem={({ item }) => {
+                                                    return (
                                                         <View>
-                                                            <Text style={{lineHeight: 25}}>
+                                                            <Text style={{ lineHeight: 25 }}>
                                                                 <Text style={{ fontWeight: "bold", fontSize: 16 }}>{`${item.usuario} `}</Text>
                                                                 <Text style={{ fontSize: 16 }}>{item.comentarioRealizado}</Text>
                                                             </Text>
@@ -181,7 +192,7 @@ class Post extends Component {
                                             />
                                         </View>
                                 }
-                            
+
                                 <TextInput
                                     placeholder="Agregar comentario..."
                                     keyboardType="default"
@@ -200,10 +211,10 @@ class Post extends Component {
 
                                 <TouchableOpacity
                                     disabled={this.state.text == "" ? true : false}
-                                    style={this.state.text == "" ? styles.boton :styles.botonPublicar}
+                                    style={this.state.text == "" ? styles.boton : styles.botonPublicar}
                                     onPress={() => this.comentarPost()}
                                 >
-                                    <Text style={ {color: "white", fontSize: 17} }>Publicar</Text>
+                                    <Text style={{ color: "white", fontSize: 17 }}>Publicar</Text>
                                 </TouchableOpacity>
 
                                 {
@@ -211,15 +222,16 @@ class Post extends Component {
                                 }
                             </Modal>
                     }
+                    
                     {
                         auth.currentUser.email === data.user ?
+                            ""
+                            :
                             <TouchableOpacity
                                 style={styles.trash}
                                 onPress={() => this.borrarPost()}>
                                 <Icon size={25} name="trash" color="#c44242" />
                             </TouchableOpacity>
-                            :
-                            ""
                     }
                 </View>
 
@@ -227,7 +239,7 @@ class Post extends Component {
                 <Text style={styles.description}> {data.description} </Text>
 
             </View>
-            //Revisar: No cambia a dislike
+
 
         )
     }
@@ -237,34 +249,19 @@ const styles = StyleSheet.create({
     image: {
         height: 400
     },
-
+    trash:{
+        paddingLeft: 200
+    },
     container: {
         marginTop: 20,
         paddingHorizontal: 0,
 
     },
-    interaction: {
-        marginTop: 20,
-        flex: 1,
+    interaction:{
+        display: "flex",
         flexDirection: 'row',
-
-    },
-    botonLike: {
-        marginRight: 200,
-    },
-
-    botonComment: {
-        marginRight: 40,
-         
-    },
-    trash: {      
-        
-    },
-    likes: {
-        color: "#1e1e1e",
-        paddingVertical: "5",
-        flex: '1'
-
+        alignItems:"center",
+        marginTop: 5
     },
     placeholder: {
         height: 40,
@@ -276,7 +273,12 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         marginVertical: 7,
     },
-
+    botonComment:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:"center",
+        marginLeft: 10
+    },
     flatlist: {
         flex: 1,
         paddingHorizontal: 7
@@ -324,9 +326,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 6,
         color: "#ffff",
-    }, 
-    salir:{ 
-        paddingVertical: 10, 
+    },
+    salir: {
+        paddingVertical: 10,
         paddingHorizontal: 7
     }
 })

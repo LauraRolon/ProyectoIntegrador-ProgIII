@@ -18,9 +18,9 @@ import { TextInput } from 'react-native-gesture-handler'
 
   register(email, password, user){
     auth
-    .createUserWithEmailAndPassword(email, password, user)
-      .then(()=> console.log("Se registro correctamente"))
-      .catch((err)=> this.setState({errores: error.message}))
+    .createUserWithEmailAndPassword(email, password)
+      .then((userData)=> userData.user.updateProfile({displayName: user}))
+      .catch((err)=> this.setState({errores: err.message}))
   }
   
   render() {
@@ -30,7 +30,7 @@ import { TextInput } from 'react-native-gesture-handler'
         
         <TextInput style={styles.input}
           onChangeText={(text)=> this.setState({user: text})}
-          keyboardType="user-address"
+          keyboardType="default"
           placeholder="User"
         />
         <TextInput style={styles.input}
@@ -46,7 +46,7 @@ import { TextInput } from 'react-native-gesture-handler'
                 />
 
         
-        <TouchableOpacity style={styles.button} onPress={()=> this.register(this.state.email, this.state.password, this.satate.user )}>
+        <TouchableOpacity style={styles.button} onPress={()=> this.register(this.state.email, this.state.password, this.state.user )}>
                     <Text style={styles.texto}>Registrarse</Text>
                 </TouchableOpacity>
       </View>

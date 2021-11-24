@@ -44,7 +44,7 @@ class Perfil extends Component {
                     <Icon size={20} name="sign-out-alt" color="#c4c4c4" regular />
 
                 </TouchableOpacity>
-                <Text style={styles.welcome}>{auth.currentUser.email} </Text>
+                <Text style={styles.welcome}>{auth.currentUser.displayName} </Text>
                 <Text style={styles.mail}> {auth.currentUser.email} </Text>
                 <Text style={styles.element}> {auth.currentUser.metadata.creationTime} </Text>
                 <Text style={styles.element}>Cantidad de posteos: {this.state.posts.length}  </Text>
