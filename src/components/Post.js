@@ -10,7 +10,7 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            likes: 0,
+            likes: [],
             liked: false,
             showModal: false,
             comments: [],
@@ -25,14 +25,14 @@ class Post extends Component {
     }
 
     recieveLikes() {
-        let likes = this.props.postData.data.likes;
-        if (likes) {
+        let likesData = this.props.postData.data.likes;
+        if (likesData) {
             this.setState({
-                likes: likes.length
+                likes: likesData.length
             })
 
         }
-        if (likes.includes(auth.currentUser.email)) {
+        if (this.state.likes.includes(auth.currentUser.email)) {
             this.setState({
                 liked: true
             })
