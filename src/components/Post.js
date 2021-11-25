@@ -10,7 +10,7 @@ class Post extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            likes: [],
+            likes: 0,
             liked: false,
             showModal: false,
             comments: [],
@@ -26,17 +26,20 @@ class Post extends Component {
 
     recieveLikes() {
         let likesData = this.props.postData.data.likes;
+        
         if (likesData) {
             this.setState({
                 likes: likesData.length
             })
 
         }
-        if (this.state.likes.includes(auth.currentUser.email)) {
+        if (likesData.includes(auth.currentUser.email)) {
             this.setState({
                 liked: true
             })
+            
         }
+        
     }
 
     likePost(id) {
@@ -47,13 +50,14 @@ class Post extends Component {
                 likes: this.state.likes + 1,
                 liked: true
             })
+            console.log("like")
         })
         .catch((err) => { console.log(err) })
     }
 
-    unlikePost() {
+    unlikePost(id) {
         db.collection("posteos").doc(id).update({
-            likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email + ",")
+            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email + ",")
         }).then(() => {
             this.setState({
                 likes: this.state.likes - 1,
