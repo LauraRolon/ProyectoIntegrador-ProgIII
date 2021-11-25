@@ -71,7 +71,7 @@ class Post extends Component {
         db.collection("posteos").doc(this.props.postData.id).delete()
             .then(() => {
                 console.log("el posteo fue eliminado")
-                this.setState({borrado: false})
+                this.setState({ borrado: false })
             })
             .catch(err => console.log(err))
     }
@@ -136,19 +136,19 @@ class Post extends Component {
                     <Text> {this.props.postData.data.likes.length} </Text>
 
                     {
-                        ! this.state.liked ?
+                        !this.state.liked ?
                             <TouchableOpacity
                                 onPress={() => this.likePost(this.props.postData.id)}>
-                                    <Icon size={25} name="heart" color="#6d6d6d" />
+                                <Icon size={25} name="heart" color="#6d6d6d" />
                             </TouchableOpacity>
-                        :
+                            :
                             <TouchableOpacity
                                 onPress={() => this.unlikePost(this.props.postData.id)}>
-                                    <Icon size={25} name="heart" color="#d61525" solid />
+                                <Icon size={25} name="heart" color="#d61525" solid />
                             </TouchableOpacity>
-                    } 
-                    
-                    
+                    }
+
+
 
 
                     {/* COMENTARIOS */}
@@ -161,7 +161,7 @@ class Post extends Component {
                                 <Text>{`${this.props.postData.data.comments.length} `}</Text>
                                 <Icon size={25} name="comment" color="#6d6d6d" regular />
                             </TouchableOpacity>
-                        :
+                            :
                             <Modal
                                 visible={this.state.showModal}
                                 animationType="slide"
@@ -223,15 +223,15 @@ class Post extends Component {
                                 }
                             </Modal>
                     }
-                    
+
                     {
                         (auth.currentUser.email === data.user && !this.state.borrado) ?
                             <TouchableOpacity
                                 style={styles.trash}
-                                onPress={() => this.setState({borrado: true})}>
-                                    <Icon size={25} name="trash" color="#c44242" />
+                                onPress={() => this.setState({ borrado: true })}>
+                                <Icon size={25} name="trash" color="#c44242" />
                             </TouchableOpacity>
-                        :
+                            :
                             <Modal
                                 visible={this.state.borrado}
                                 animationType="slide"
@@ -243,7 +243,7 @@ class Post extends Component {
                                         <TouchableOpacity style={styles.opciones} onPress={() => this.borrarPost()}>
                                             <Icon size={25} name="check" color="#6d6d6d" regular />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.opciones} onPress={() => this.setState({borrado: false})}>
+                                        <TouchableOpacity style={styles.opciones} onPress={() => this.setState({ borrado: false })}>
                                             <Icon size={25} name="times" color="#6d6d6d" regular />
                                         </TouchableOpacity>
                                     </View>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     image: {
         height: 400
     },
-    trash:{
+    trash: {
         paddingLeft: 200
     },
     container: {
@@ -274,10 +274,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
 
     },
-    interaction:{
+    interaction: {
         display: "flex",
         flexDirection: 'row',
-        alignItems:"center",
+        alignItems: "center",
         marginTop: 5
     },
     placeholder: {
@@ -291,10 +291,10 @@ const styles = StyleSheet.create({
         marginVertical: 7,
         marginTop: 25
     },
-    botonComment:{
-        display:'flex',
-        flexDirection:'row',
-        alignItems:"center",
+    botonComment: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: "center",
         marginLeft: 10
     },
     flatlist: {
@@ -361,11 +361,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-    textos: { 
-        lineHeight: 30, 
+    textos: {
+        lineHeight: 30,
         fontSize: 16,
         textAlign: "center",
-        paddingVertical: 10 
+        paddingVertical: 10
     }
 })
 
