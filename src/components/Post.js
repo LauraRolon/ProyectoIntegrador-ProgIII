@@ -50,7 +50,7 @@ class Post extends Component {
                 likes: this.state.likes + 1,
                 liked: true
             })
-            console.log("like")
+            
         })
         .catch((err) => { console.log(err) })
     }
