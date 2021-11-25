@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native
 import { auth, db } from "../firebase/config";
 import Post from "../components/Post";
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { color } from "react-native-reanimated";
 
 class Perfil extends Component {
     constructor(props) {

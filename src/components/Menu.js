@@ -23,7 +23,6 @@ class Menu extends Component {
 
     componentDidMount() {
         auth.onAuthStateChanged((user) => {
-            console.log(user);
             if (user !== null) {
                 this.setState({
                     loggedIn: true
@@ -52,24 +51,19 @@ class Menu extends Component {
             estadoError: mensajeError,
             estadoEmail: mail,
             estadoContraseña: pass
-
         })
-        console.log(error)
     }
 
     //LOGIN Y LOGOUT
     login(mail, pass) {
         auth.signInWithEmailAndPassword(mail, pass)
-            .then((response) => {
-                console.log("logueado")
-                console.log(response)
+            .then(() => {
                 this.setState({
                     loggedIn: true,
                 });
             })
             .catch(error => this.sessionError(mail, pass, error))
     }
-
 
 
     logout() {
@@ -101,12 +95,9 @@ class Menu extends Component {
                         <Drawer.Screen name="Postear" component={() => <NewPost />} />
                     </Drawer.Navigator>
                 </NavigationContainer>
-
-
         )
     }
 
 }
 
 export default Menu;
-

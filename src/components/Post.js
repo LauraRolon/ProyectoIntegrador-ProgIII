@@ -40,7 +40,6 @@ class Post extends Component {
     }
 
     likePost(id) {
-        console.log(id)
         db.collection("posteos").doc(id).update({
             likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email + ",")
         }).then(() => {
@@ -49,8 +48,7 @@ class Post extends Component {
                 liked: true
             })
         })
-            .catch((err) => { console.log(err) })
-        console.log('puse like')
+        .catch((err) => { console.log(err) })
     }
 
     unlikePost() {
@@ -63,7 +61,6 @@ class Post extends Component {
             })
         })
             .catch((err) => { console.log(err) })
-        console.log('elimine like')
     }
 
     borrarPost() {
@@ -86,7 +83,6 @@ class Post extends Component {
         })
     }
 
-    // COMENTARIOS
     recieveComments() {
         let comentarios = this.props.postData.data.comments;
         if (comentarios) {
@@ -116,7 +112,7 @@ class Post extends Component {
 
 
     render() {
-        let { data } = this.props.postData //Destructuring
+        let { data } = this.props.postData
         return (
             <View style={styles.container}>
                 <Text style={styles.user}> {data.userName} </Text>
@@ -143,7 +139,6 @@ class Post extends Component {
                     } 
                     
 
-                    {/* COMENTARIOS */}
                     {
                         !this.state.showModal ?
                             <TouchableOpacity

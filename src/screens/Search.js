@@ -14,7 +14,7 @@ class Search extends Component {
     }
 
     buscar() {
-        db.collection("posteos").where("user", "==", this.state.busqueda).onSnapshot((docs) => {
+        db.collection("posteos").where("userName", "==", this.state.busqueda).onSnapshot((docs) => {
             let posteos = []
             docs.forEach((doc) => {
                 posteos.push({
