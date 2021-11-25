@@ -21,11 +21,10 @@ class NewPost extends Component {
             description: this.state.description,
             userName: auth.currentUser.displayName,
             likes: [],
-            comments: [], //array de objetos literales
+            comments: [], 
             foto: this.state.url
         })
             .then(() => {
-                console.log("se posteó exitosamente")
                 this.setState({
                     titulo: "",
                     description: ""

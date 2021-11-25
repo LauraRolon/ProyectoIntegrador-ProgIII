@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,11 +10,7 @@ export default class Login extends Component {
     }
   }
 
-  componentWillMount() {
-    console.log(this.props)
-
-  }
-
+  
   render() {
     return (
       <View style={styles.container}>
@@ -39,15 +35,13 @@ export default class Login extends Component {
         />
 
   
-            <TouchableOpacity 
-              style={(this.state.mail && this.state.pass) == null ? styles.touchableUnable : styles.touchable}
-              disabled={(this.state.mail && this.state.pass) == null ? true : false}
-              onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
-              <Text>Login</Text>
-            </TouchableOpacity>
+        <TouchableOpacity 
+          style={(this.state.mail && this.state.pass) == null ? styles.touchableUnable : styles.touchable}
+          disabled={(this.state.mail && this.state.pass) == null ? true : false}
+          onPress={() => this.props.Login(this.state.mail, this.state.pass)} >
+            <Text>Login</Text>
+        </TouchableOpacity>
             
-
-
       </View>
     )
   }
@@ -106,3 +100,5 @@ const styles = StyleSheet.create({
 
 
 })
+
+export default Login
